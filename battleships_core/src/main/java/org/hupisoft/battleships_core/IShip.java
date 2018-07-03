@@ -70,5 +70,5 @@ public interface IShip {
     /**
      * Increase ship's hit counter.
      */
-    public void hit();
+    public boolean hit();
 }

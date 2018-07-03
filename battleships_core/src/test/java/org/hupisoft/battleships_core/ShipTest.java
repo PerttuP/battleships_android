@@ -71,12 +71,12 @@ public class ShipTest {
         assertFalse(ship.isDestroyed());
 
         for (int i = 1; i < 3; ++i) {
-            ship.hit();
+            assertFalse(ship.hit());
             assertEquals(i, ship.hitCount());
             assertFalse(ship.isDestroyed());
         }
 
-        ship.hit();
+        assertTrue(ship.hit());
         assertEquals(3, ship.hitCount());
         assertTrue(ship.isDestroyed());
     }

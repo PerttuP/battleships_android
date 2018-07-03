@@ -9,11 +9,11 @@ class Ship implements IShip {
     Orientation mOrientation;
     int mHitCount;
 
-    public Ship(int length) {
+    Ship(int length) {
         this(length, new Coordinate(0,0), Orientation.VERTICAL);
     }
 
-    public Ship(int length, Coordinate bowCoordinate, Orientation orientation) {
+    Ship(int length, Coordinate bowCoordinate, Orientation orientation) {
         mLength = length;
         mBowCoordinate = bowCoordinate;
         mOrientation = orientation;
@@ -88,8 +88,9 @@ class Ship implements IShip {
     }
 
     @Override
-    public void hit() {
+    public boolean hit() {
         ++mHitCount;
+        return isDestroyed();
     }
 
     private ArrayList<Coordinate> gatherCoordinates(int firstX, int lastX, int firstY, int lastY) {
