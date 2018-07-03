@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 class Ship implements IShip {
 
-    int mLength;
-    Coordinate mBowCoordinate;
-    Orientation mOrientation;
-    int mHitCount;
+    private int mLength;
+    private Coordinate mBowCoordinate;
+    private Orientation mOrientation;
+    private int mHitCount;
 
     Ship(int length) {
         this(length, new Coordinate(0,0), Orientation.VERTICAL);

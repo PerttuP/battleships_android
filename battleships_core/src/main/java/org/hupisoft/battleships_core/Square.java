@@ -4,9 +4,9 @@ import static org.mockito.Mockito.*;
 
 class Square implements ISquare {
 
-    Coordinate mLocation = null;
-    IShip mShip = null;
-    boolean mIsHit = false;
+    private Coordinate mLocation = null;
+    private IShip mShip = null;
+    private boolean mIsHit = false;
 
     Square(Coordinate location) {
         mLocation = location;
@@ -20,12 +20,16 @@ class Square implements ISquare {
     @Override
     public HitResult hit() {
         HitResult result = HitResult.EMPTY;
-        mIsHit = true;
-        if (mShip != null) {
-            if (mShip.hit()) {
-                result = HitResult.DESTROYED_SHIP;
-            } else {
-                result = HitResult.HIT_SHIP;
+        if (mIsHit) {
+            result = HitResult.ALREADY_HIT;
+        } else {
+            mIsHit = true;
+            if (mShip != null) {
+                if (mShip.hit()) {
+                    result = HitResult.DESTROYED_SHIP;
+                } else {
+                    result = HitResult.HIT_SHIP;
+                }
             }
         }
         return result;

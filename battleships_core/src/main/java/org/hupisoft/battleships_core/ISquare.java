@@ -6,6 +6,7 @@ public interface ISquare {
      * Possible results for hitting a square.
      */
     public enum HitResult {
+        ALREADY_HIT,
         EMPTY,
         HIT_SHIP,
         DESTROYED_SHIP

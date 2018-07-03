@@ -59,4 +59,23 @@ public class SquareTest {
         assertTrue(sqr.isHit());
         verify(mockShip).hit();
     }
+
+    @Test
+    public void hittingSquareSecondTimeDoesNotHitShip() {
+        IShip mockShip = mock(IShip.class);
+        when(mockShip.hit()).thenReturn(false);
+
+        Square sqr = new Square(new Coordinate(4,5));
+        sqr.setShip(mockShip);
+        assertTrue(sqr.getShip() == mockShip);
+        assertFalse(sqr.isHit());
+
+        assertEquals(ISquare.HitResult.HIT_SHIP, sqr.hit());
+        assertTrue(sqr.isHit());
+        assertEquals(ISquare.HitResult.ALREADY_HIT, sqr.hit());
+        assertTrue(sqr.isHit());
+
+        verify(mockShip).hit();
+        verifyNoMoreInteractions(mockShip);
+    }
 }
