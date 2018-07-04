@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         CoordinateTest.class,
         ShipTest.class,
-        SquareTest.class
+        SquareTest.class,
+        GameAreaTest.class
 })
 
 public class CoreTestSuite {
