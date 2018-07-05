@@ -9,6 +9,36 @@ import static org.junit.Assert.*;
 
 public class ShipTest {
 
+    private void checkOccupiedSquares(IShip ship) {
+        Coordinate bow = ship.getBowCoordinates();
+        if (ship.orientation() == IShip.Orientation.VERTICAL) {
+            for (int i = 0; i < ship.length(); ++i) {
+                assertTrue(ship.getOccupiedCoordinates().contains(new Coordinate(bow.x(), bow.y()+i)));
+            }
+        } else if (ship.orientation() == IShip.Orientation.HORISONTAL) {
+            for (int i = 0; i < ship.length(); ++i) {
+                assertTrue(ship.getOccupiedCoordinates().contains(new Coordinate(bow.x()+i, bow.y())));
+            }
+        }
+    }
+
+    private void checkRestrictedSquares(IShip ship) {
+        Coordinate bow = ship.getBowCoordinates();
+        if (ship.orientation() == IShip.Orientation.VERTICAL) {
+            for (int y = -1; y <= ship.length(); ++y) {
+                for (int x = bow.x()-1; x <= bow.x()+1; ++x) {
+                    assertTrue(ship.getRestrictedCoordinates().contains(new Coordinate(x, bow.y() + y)));
+                }
+            }
+        } else if (ship.orientation() == IShip.Orientation.HORISONTAL) {
+            for (int x = -1; x <= ship.length(); ++x) {
+                for (int y = bow.x()-1; y <= bow.x()+1; ++y) {
+                    assertTrue(ship.getRestrictedCoordinates().contains(new Coordinate(bow.x() + x, y)));
+                }
+            }
+        }
+    }
+
     @Test
     public void firstConstructorTest() {
         for (int length = 1; length <= 4; ++length) {
@@ -79,5 +109,31 @@ public class ShipTest {
         assertTrue(ship.hit());
         assertEquals(3, ship.hitCount());
         assertTrue(ship.isDestroyed());
+    }
+
+    @Test
+    public void setOrientationTest() {
+        Ship ship = new Ship(3);
+        assertEquals(IShip.Orientation.VERTICAL, ship.orientation());
+        ship.setOrientation(IShip.Orientation.HORISONTAL);
+        assertEquals(IShip.Orientation.HORISONTAL, ship.orientation());
+        ship.setOrientation(IShip.Orientation.HORISONTAL);
+        assertEquals(IShip.Orientation.HORISONTAL, ship.orientation());
+        ship.setOrientation(IShip.Orientation.VERTICAL);
+        assertEquals(IShip.Orientation.VERTICAL, ship.orientation());
+        ship.setOrientation(IShip.Orientation.VERTICAL);
+        assertEquals(IShip.Orientation.VERTICAL, ship.orientation());
+    }
+
+    @Test
+    public void setBowLocationTest() {
+        Ship ship = new Ship(3);
+        checkOccupiedSquares(ship);
+        checkRestrictedSquares(ship);
+        assertEquals(new Coordinate(0,0), ship.getBowCoordinates());
+        ship.setBowCoordinates(new Coordinate(5,5));
+        assertEquals(new Coordinate(5,5), ship.getBowCoordinates());
+        checkOccupiedSquares(ship);
+        checkRestrictedSquares(ship);
     }
 }

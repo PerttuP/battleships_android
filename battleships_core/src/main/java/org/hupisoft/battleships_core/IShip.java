@@ -30,6 +30,12 @@ public interface IShip {
     public Orientation orientation();
 
     /**
+     * Set new orientation.
+     * @param orientation New ship orientation.
+     */
+    public void setOrientation(Orientation orientation);
+
+    /**
      * Get ship length.
      * @return Ship length in squares.
      */
@@ -40,6 +46,12 @@ public interface IShip {
      * @return Coordinate pair for the head of the ship.
      */
     public Coordinate getBowCoordinates();
+
+    /**
+     * Set new bow location. Occupied and restricted locations are updated accorcingly.
+     * @param coordinate New location.
+     */
+    public void setBowCoordinates(Coordinate coordinate);
 
     /**
      * Get coordinates of the rear of the ship.

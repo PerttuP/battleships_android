@@ -21,6 +21,11 @@ public class Coordinate {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "Coordinate{" + x() + "," + y() + "}";
+    }
+
     /**
      * Get x-coordinate.
      * @return X-coordinate.

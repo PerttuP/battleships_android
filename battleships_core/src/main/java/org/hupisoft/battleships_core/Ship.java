@@ -31,6 +31,11 @@ class Ship implements IShip {
     }
 
     @Override
+    public void setOrientation(Orientation orientation) {
+        mOrientation = orientation;
+    }
+
+    @Override
     public int length() {
         return mLength;
     }
@@ -38,6 +43,11 @@ class Ship implements IShip {
     @Override
     public Coordinate getBowCoordinates() {
         return mBowCoordinate;
+    }
+
+    @Override
+    public void setBowCoordinates(Coordinate location) {
+        mBowCoordinate = location;
     }
 
     @Override

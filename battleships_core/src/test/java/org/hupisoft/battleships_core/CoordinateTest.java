@@ -70,4 +70,10 @@ public class CoordinateTest {
         assertFalse(c.isNeighbour(c2));
         assertFalse(c2.isNeighbour(c));
     }
+
+    @Test
+    public void toStringTest() {
+        Coordinate c = new Coordinate(3,4);
+        assertEquals("Coordinate{3,4}", c.toString());
+    }
 }
