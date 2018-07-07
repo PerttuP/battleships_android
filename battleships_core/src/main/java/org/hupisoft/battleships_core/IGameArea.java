@@ -34,7 +34,7 @@ public interface IGameArea {
      * @param location Location to be hit.
      * @return Hit result. Null if there is no square at the location.
      */
-    ISquare.HitResult hit(Coordinate location);
+    HitResult hit(Coordinate location);
 
     /**
      * Get number of remaining ships.

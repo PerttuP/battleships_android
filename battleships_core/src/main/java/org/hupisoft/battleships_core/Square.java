@@ -26,9 +26,9 @@ class Square implements ISquare {
             mIsHit = true;
             if (mShip != null) {
                 if (mShip.hit()) {
-                    result = HitResult.DESTROYED_SHIP;
+                    result = HitResult.SHIP_DESTROYED;
                 } else {
-                    result = HitResult.HIT_SHIP;
+                    result = HitResult.SHIP_HIT;
                 }
             }
         }

@@ -25,7 +25,7 @@ public class SquareTest {
         Square sqr = new Square(new Coordinate(1,2));
         assertFalse(sqr.isHit());
         assertNull(sqr.getShip());
-        assertEquals(ISquare.HitResult.EMPTY, sqr.hit());
+        assertEquals(HitResult.EMPTY, sqr.hit());
         assertTrue(sqr.isHit());
         assertNull(sqr.getShip());
     }
@@ -40,7 +40,7 @@ public class SquareTest {
         assertTrue(sqr.getShip() == mockShip);
         assertFalse(sqr.isHit());
 
-        assertEquals(ISquare.HitResult.HIT_SHIP, sqr.hit());
+        assertEquals(HitResult.SHIP_HIT, sqr.hit());
         verify(mockShip).hit();
         assertTrue(sqr.isHit());
     }
@@ -55,7 +55,7 @@ public class SquareTest {
         assertTrue(sqr.getShip() == mockShip);
         assertFalse(sqr.isHit());
 
-        assertEquals(ISquare.HitResult.DESTROYED_SHIP, sqr.hit());
+        assertEquals(HitResult.SHIP_DESTROYED, sqr.hit());
         assertTrue(sqr.isHit());
         verify(mockShip).hit();
     }
@@ -70,9 +70,9 @@ public class SquareTest {
         assertTrue(sqr.getShip() == mockShip);
         assertFalse(sqr.isHit());
 
-        assertEquals(ISquare.HitResult.HIT_SHIP, sqr.hit());
+        assertEquals(HitResult.SHIP_HIT, sqr.hit());
         assertTrue(sqr.isHit());
-        assertEquals(ISquare.HitResult.ALREADY_HIT, sqr.hit());
+        assertEquals(HitResult.ALREADY_HIT, sqr.hit());
         assertTrue(sqr.isHit());
 
         verify(mockShip).hit();

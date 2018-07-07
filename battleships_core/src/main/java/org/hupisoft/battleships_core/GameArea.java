@@ -44,9 +44,9 @@ class GameArea implements IGameArea {
     }
 
     @Override
-    public ISquare.HitResult hit(Coordinate location) {
+    public HitResult hit(Coordinate location) {
         ISquare sqr = getSquare(location);
-        ISquare.HitResult result = null;
+        HitResult result = null;
         if (sqr != null) {
             result = sqr.hit();
         }

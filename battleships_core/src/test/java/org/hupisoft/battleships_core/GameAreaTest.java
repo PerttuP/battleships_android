@@ -172,8 +172,8 @@ public class GameAreaTest {
     public void hitEmptySquare()
     {
         ISquare mockSqr = mSquares.get(2).get(3);
-        when(mockSqr.hit()).thenReturn(ISquare.HitResult.EMPTY);
-        assertEquals(ISquare.HitResult.EMPTY, mArea.hit(new Coordinate(2,3)));
+        when(mockSqr.hit()).thenReturn(HitResult.EMPTY);
+        assertEquals(HitResult.EMPTY, mArea.hit(new Coordinate(2,3)));
         verify(mockSqr).hit();
         verifyNoMoreInteractions(mockSqr);
     }
@@ -182,8 +182,8 @@ public class GameAreaTest {
     public void hitShipWithoutDestroyingIt()
     {
         ISquare mockSqr = mSquares.get(2).get(3);
-        when(mockSqr.hit()).thenReturn(ISquare.HitResult.HIT_SHIP);
-        assertEquals(ISquare.HitResult.HIT_SHIP, mArea.hit(new Coordinate(2,3)));
+        when(mockSqr.hit()).thenReturn(HitResult.SHIP_HIT);
+        assertEquals(HitResult.SHIP_HIT, mArea.hit(new Coordinate(2,3)));
         verify(mockSqr).hit();
         verifyNoMoreInteractions(mockSqr);
     }
@@ -192,8 +192,8 @@ public class GameAreaTest {
     public void hitShipAndDestroyIt()
     {
         ISquare mockSqr = mSquares.get(2).get(3);
-        when(mockSqr.hit()).thenReturn(ISquare.HitResult.DESTROYED_SHIP);
-        assertEquals(ISquare.HitResult.DESTROYED_SHIP, mArea.hit(new Coordinate(2,3)));
+        when(mockSqr.hit()).thenReturn(HitResult.SHIP_DESTROYED);
+        assertEquals(HitResult.SHIP_DESTROYED, mArea.hit(new Coordinate(2,3)));
         verify(mockSqr).hit();
         verifyNoMoreInteractions(mockSqr);
     }
@@ -202,8 +202,8 @@ public class GameAreaTest {
     public void hitSquareThatIsAlreadyHit()
     {
         ISquare mockSqr = mSquares.get(2).get(3);
-        when(mockSqr.hit()).thenReturn(ISquare.HitResult.ALREADY_HIT);
-        assertEquals(ISquare.HitResult.ALREADY_HIT, mArea.hit(new Coordinate(2,3)));
+        when(mockSqr.hit()).thenReturn(HitResult.ALREADY_HIT);
+        assertEquals(HitResult.ALREADY_HIT, mArea.hit(new Coordinate(2,3)));
         verify(mockSqr).hit();
         verifyNoMoreInteractions(mockSqr);
     }
