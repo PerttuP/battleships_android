@@ -5,12 +5,17 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
- * Builder class for game area.
+ * Implements the IGameAreaBuilder interface.
+ * @see IGameAreaBuilder
  */
 class GameAreaBuilder implements IGameAreaBuilder {
 
     private Random mRng = null;
 
+    /**
+     * Constructor.
+     * @param rng Random number generator.
+     */
     GameAreaBuilder(Random rng) {
         mRng = rng;
     }

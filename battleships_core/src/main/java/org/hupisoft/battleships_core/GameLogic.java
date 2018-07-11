@@ -1,9 +1,22 @@
 package org.hupisoft.battleships_core;
 
+/**
+ * Implements the IGameLogic interface.
+ * @see IGameLogic
+ */
 class GameLogic implements IGameLogic {
 
+    /**
+     * Helper class for initializing game logic. Contains setup for one player.
+     */
     static class PlayerGameSetup {
+        /**
+         * Player's own game area.
+         */
         public IGameArea area;
+        /**
+         * Number of hits the player has performed.
+         */
         public Integer numberOfHits;
     }
 
@@ -11,6 +24,12 @@ class GameLogic implements IGameLogic {
     private PlayerGameSetup mSetup2 = null;
     private Player mcCurrentPlayer = null;
 
+    /**
+     * Constructor.
+     * @param player1Setup Setup for player 1.
+     * @param player2Setup Setup for player 2.
+     * @param currentPlayer Player making next action.
+     */
     GameLogic(PlayerGameSetup player1Setup, PlayerGameSetup player2Setup, Player currentPlayer) {
         mSetup1 = player1Setup;
         mSetup2 = player2Setup;

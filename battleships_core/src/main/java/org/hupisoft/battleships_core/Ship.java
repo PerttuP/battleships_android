@@ -2,6 +2,10 @@ package org.hupisoft.battleships_core;
 
 import java.util.ArrayList;
 
+/**
+ * Implements the IShip interface.
+ * @see IShip
+ */
 class Ship implements IShip {
 
     private int mLength;
@@ -9,10 +13,20 @@ class Ship implements IShip {
     private Orientation mOrientation;
     private int mHitCount;
 
+    /**
+     * Create ship with only length specified. Other properties are to be set later.
+     * @param length Ship length in squares.
+     */
     Ship(int length) {
         this(length, new Coordinate(0,0), Orientation.VERTICAL);
     }
 
+    /**
+     * Create ship with all properties specified.
+     * @param length Ship length in squares.
+     * @param bowCoordinate Game area coordinates for the head of the ship.
+     * @param orientation Ship orientation.
+     */
     Ship(int length, Coordinate bowCoordinate, Orientation orientation) {
         mLength = length;
         mBowCoordinate = bowCoordinate;

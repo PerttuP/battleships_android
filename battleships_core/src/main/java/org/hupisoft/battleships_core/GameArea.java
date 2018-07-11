@@ -2,6 +2,10 @@ package org.hupisoft.battleships_core;
 
 import java.util.ArrayList;
 
+/**
+ * Implements the IGameArea interface.
+ * @see IGameArea
+ */
 class GameArea implements IGameArea {
 
     private ArrayList<ArrayList<ISquare>> mSquares = null;

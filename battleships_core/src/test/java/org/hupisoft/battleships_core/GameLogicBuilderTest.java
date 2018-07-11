@@ -2,7 +2,6 @@ package org.hupisoft.battleships_core;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -11,6 +10,10 @@ import static org.mockito.Mockito.*;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests the GameLogicBuilder class.
+ * @see GameLogicBuilder
+ */
 public class GameLogicBuilderTest {
 
     private GameLogicBuilder mBuilder = null;

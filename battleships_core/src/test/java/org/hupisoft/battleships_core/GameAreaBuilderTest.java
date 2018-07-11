@@ -2,7 +2,6 @@ package org.hupisoft.battleships_core;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -14,6 +13,10 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests the GameAreaBuilder class.
+ * @see GameAreaBuilder
+ */
 public class GameAreaBuilderTest {
 
     private GameAreaBuilder mBuilder = null;

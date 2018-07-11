@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests the GameArea class.
+ * @see GameArea
+ */
 public class GameAreaTest {
 
     private ArrayList<ArrayList<ISquare>> mSquares = null;

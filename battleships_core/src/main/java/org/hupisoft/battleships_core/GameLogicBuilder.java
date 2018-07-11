@@ -2,6 +2,9 @@ package org.hupisoft.battleships_core;
 
 import java.util.Random;
 
+/**
+ * Builder class for game logic.
+ */
 public class GameLogicBuilder {
 
     private IGameAreaBuilder mAreaBuilder = null;

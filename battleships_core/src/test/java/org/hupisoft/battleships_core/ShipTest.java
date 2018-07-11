@@ -1,12 +1,13 @@
 package org.hupisoft.battleships_core;
 
-import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests the Ship class.
+ * @see Ship
+ */
 public class ShipTest {
 
     private void checkOccupiedSquares(IShip ship) {

@@ -1,6 +1,5 @@
 package org.hupisoft.battleships_core;
 
-
 import java.util.ArrayList;
 
 /**
@@ -13,7 +12,13 @@ public interface IShip {
      */
     public enum Orientation
     {
+        /**
+         * Ship is placed vertically.
+         */
         VERTICAL,
+        /**
+         * Ship is placed horisontally.
+         */
         HORISONTAL
     }
 

@@ -5,6 +5,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests the Square class.
+ * @see Square
+ */
 public class SquareTest {
 
     @Test

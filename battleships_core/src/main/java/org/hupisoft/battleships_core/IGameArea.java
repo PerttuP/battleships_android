@@ -2,6 +2,9 @@ package org.hupisoft.battleships_core;
 
 import java.util.ArrayList;
 
+/**
+ * Interface for one player's own game area.
+ */
 public interface IGameArea {
 
     /**

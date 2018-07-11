@@ -1,5 +1,8 @@
 package org.hupisoft.battleships_core;
 
+/**
+ * Interface for single square in game area.
+ */
 public interface ISquare {
 
     /**

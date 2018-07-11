@@ -1,11 +1,19 @@
 package org.hupisoft.battleships_core;
 
+/**
+ * Implements the ISquare interface.
+ * @see ISquare
+ */
 class Square implements ISquare {
 
     private Coordinate mLocation = null;
     private IShip mShip = null;
     private boolean mIsHit = false;
 
+    /**
+     * Constructor.
+     * @param location Square location on game area.
+     */
     Square(Coordinate location) {
         mLocation = location;
     }

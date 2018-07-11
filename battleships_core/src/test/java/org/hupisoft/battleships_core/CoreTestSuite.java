@@ -15,5 +15,8 @@ import org.junit.runners.Suite;
         GameLogicBuilderTest.class
 })
 
+/**
+ * Runs all unit tests.
+ */
 public class CoreTestSuite {
 }

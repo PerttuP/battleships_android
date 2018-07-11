@@ -2,13 +2,16 @@ package org.hupisoft.battleships_core;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Answers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Tests the GameLogic class.
+ * @see GameLogic
+ */
 public class GameLogicTest {
 
     private GameLogic.PlayerGameSetup mSetup1;

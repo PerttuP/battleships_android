@@ -4,6 +4,10 @@ import org.junit.Test;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
 
+/**
+ * Tests the Coordinate class.
+ * @see Coordinate
+ */
 public class CoordinateTest {
 
     @Test
