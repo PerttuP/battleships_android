@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * Builder class for game area.
  */
-class GameAreaBuilder {
+class GameAreaBuilder implements IGameAreaBuilder {
 
     private Random mRng = null;
 
@@ -15,16 +15,7 @@ class GameAreaBuilder {
         mRng = rng;
     }
 
-    /**
-     * Generates random game area. None of the squares are hit and all ships are intact.
-     * NOTE: Function may get stuck if area is not big enough for relialibly placing ships at random.
-     *
-     * @param width Area width
-     * @param height Area height
-     * @param shipLengths Ship lengths. Array size indicates number of ships and elements the
-     *                    length for each ship.
-     * @return Randomly generated game area without any pre-existing hits.
-     */
+    @Override
     public IGameArea createInitialGameArea(int width, int height, int[] shipLengths) {
         ArrayList<ArrayList<ISquare>> squares = createSquares(width, height);
         ArrayList<IShip> ships = createShips(shipLengths);

@@ -11,7 +11,8 @@ import org.junit.runners.Suite;
         SquareTest.class,
         GameAreaTest.class,
         GameAreaBuilderTest.class,
-        GameLogicTest.class
+        GameLogicTest.class,
+        GameLogicBuilderTest.class
 })
 
 public class CoreTestSuite {

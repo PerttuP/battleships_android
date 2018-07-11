@@ -1,7 +1,5 @@
 package org.hupisoft.battleships_core;
 
-import static org.mockito.Mockito.*;
-
 class Square implements ISquare {
 
     private Coordinate mLocation = null;

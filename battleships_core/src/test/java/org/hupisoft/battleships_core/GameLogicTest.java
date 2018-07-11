@@ -15,7 +15,8 @@ public class GameLogicTest {
     private GameLogic.PlayerGameSetup mSetup2;
     private GameLogic mLogic;
 
-    private void defaultSetUp() {
+    @Before
+    public void defaultSetUp() {
         mSetup1 = new GameLogic.PlayerGameSetup();
         mSetup1.area = mock(IGameArea.class);
         mSetup1.numberOfHits = 0;
@@ -52,14 +53,12 @@ public class GameLogicTest {
 
     @Test
     public void playersHaveCorrectGameAreas() {
-        defaultSetUp();
         assertEquals(mSetup1.area, mLogic.getGameArea(Player.PLAYER_1));
         assertEquals(mSetup2.area, mLogic.getGameArea(Player.PLAYER_2));
     }
 
     @Test
     public void correctPlayerIsInitiallyInTurn() {
-        defaultSetUp();
         assertEquals(Player.PLAYER_1, mLogic.getCurrentPlayer());
 
         mLogic = new GameLogic(mSetup1, mSetup2, Player.PLAYER_2);
@@ -68,13 +67,11 @@ public class GameLogicTest {
 
     @Test
     public void gameAreaForNullPlayerIsNull() {
-        defaultSetUp();
         assertNull(mLogic.getGameArea(null));
     }
 
     @Test
     public void playersHaveCorrectInitialPerformedHits() {
-        defaultSetUp();
         assertEquals(0, mLogic.getNumberOfHits(Player.PLAYER_1));
         assertEquals(0, mLogic.getNumberOfHits(Player.PLAYER_2));
 
@@ -87,13 +84,11 @@ public class GameLogicTest {
 
     @Test
     public void nullPlayerHas0Hits() {
-        defaultSetUp();
         assertEquals(0, mLogic.getNumberOfHits(null));
     }
 
     @Test
     public void gameIsNotOverWhenBothPlayersHaveShipsRemaining() {
-        defaultSetUp();
         whenGameNotOver();
         assertFalse(mLogic.isGameOver());
         verifyGameOverCheck(null);
@@ -103,7 +98,6 @@ public class GameLogicTest {
 
     @Test
     public void gameIsOverWhenPlayerOneHasNoLongerShips() {
-        defaultSetUp();
         whenPlayerOneLost();
         assertTrue(mLogic.isGameOver());
         verifyGameOverCheck(Player.PLAYER_2);
@@ -113,7 +107,6 @@ public class GameLogicTest {
 
     @Test
     public void gameIsOverWhenPlayerTwoHasNoLongerShips() {
-        defaultSetUp();
         whenPlayerTwoLost();
         assertTrue(mLogic.isGameOver());
         verifyGameOverCheck(Player.PLAYER_1);
@@ -123,7 +116,6 @@ public class GameLogicTest {
 
     @Test
     public void noWinnerIfGameIsNotOver() {
-        defaultSetUp();
         whenGameNotOver();
         assertNull(mLogic.getWinner());
         verifyGameOverCheck(null);
@@ -133,7 +125,6 @@ public class GameLogicTest {
 
     @Test
     public void playerOneWinsIfPlayerTwoHasNoShipsLeft() {
-        defaultSetUp();
         whenPlayerTwoLost();
         assertEquals(Player.PLAYER_1, mLogic.getWinner());
         verifyGameOverCheck(Player.PLAYER_1);
@@ -143,7 +134,6 @@ public class GameLogicTest {
 
     @Test
     public void playerTwoWinsIfPlayerOneHasNoShipsLeft() {
-        defaultSetUp();
         whenPlayerOneLost();
         assertEquals(Player.PLAYER_2, mLogic.getWinner());
         verifyGameOverCheck(Player.PLAYER_2);
@@ -153,7 +143,6 @@ public class GameLogicTest {
 
     @Test
     public void performingHitOnEmptyLocationIncreasesHitCountAndChangesPlayer() {
-        defaultSetUp();
         Coordinate c1 = new Coordinate(1,2);
         Coordinate c2 = new Coordinate(3,4);
         when(mSetup2.area.hit(c1)).thenReturn(HitResult.EMPTY);
@@ -187,7 +176,6 @@ public class GameLogicTest {
 
     @Test
     public void hittingAlreadyHitLocationHasNoEffect() {
-        defaultSetUp();
         Coordinate c1 = new Coordinate(1,2);
         when(mSetup2.area.hit(c1)).thenReturn(HitResult.ALREADY_HIT);
         whenGameNotOver();
@@ -210,7 +198,6 @@ public class GameLogicTest {
 
     @Test
     public void hittingAfterGameHasEndedHasNoEffect() {
-        defaultSetUp();
         Coordinate c1 = new Coordinate(1,2);
         whenPlayerTwoLost();
 
@@ -226,7 +213,6 @@ public class GameLogicTest {
 
     @Test
     public void sinkingShipChecksIfGameIsOver() {
-        defaultSetUp();
         Coordinate c1 = new Coordinate(1,2);
         Coordinate c2 = new Coordinate(3,4);
 
@@ -278,7 +264,6 @@ public class GameLogicTest {
 
     @Test
     public void hittingOutOfBoundsHasNoEffect() {
-        defaultSetUp();
         Coordinate c1 = new Coordinate(20, 25);
         when(mSetup2.area.hit(c1)).thenReturn(null);
         whenGameNotOver();
