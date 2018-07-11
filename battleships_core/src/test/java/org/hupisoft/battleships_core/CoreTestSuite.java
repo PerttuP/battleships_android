@@ -10,7 +10,8 @@ import org.junit.runners.Suite;
         ShipTest.class,
         SquareTest.class,
         GameAreaTest.class,
-        GameAreaBuilderTest.class
+        GameAreaBuilderTest.class,
+        GameLogicTest.class
 })
 
 public class CoreTestSuite {

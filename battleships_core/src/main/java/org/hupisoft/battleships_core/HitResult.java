@@ -4,6 +4,12 @@ package org.hupisoft.battleships_core;
  * Possible outcomes for hitting the game area.
  */
 public enum HitResult {
+
+    /**
+     * Game has already ended. Hit had no effect.
+     */
+    GAME_HAS_ENDED,
+
     /**
      * Square in the hit location is already hit. Hit had no effect.
      */
@@ -22,5 +28,10 @@ public enum HitResult {
     /**
      * Ship was hit and destroyed.
      */
-    SHIP_DESTROYED
+    SHIP_DESTROYED,
+
+    /**
+     * Last remaining ship was hot and destroyed.
+     */
+    VICTORY
 }
