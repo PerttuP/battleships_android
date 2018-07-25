@@ -4,6 +4,11 @@
     <string name="menu_newVersusGame" translatable="true">New Versus Game</string>
     <string name="menu_newSoloGame" translatable="true">New Single Player Game</string>
 
+    <string name="nextPlayer_instructionsPlayer1" translatable="true">Pass device to player 1.</string>
+    <string name="nextPlayer_instructionsPlayer2" translatable="true">Pass device to player 2.</string>
+    <string name="continueText" translatable="true">Continue</string>
+    <string name="stopText" translatable="true">Stop!</string>
+
     <string name="battle_playerInTurn" translatable="true">Player in turn:</string>
     <string name="battle_player1" translatable="true">Player 1</string>
     <string name="battle_player2" translatable="true">Player 2</string>

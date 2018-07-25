@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.hupisoft.battleships_core.Player;
+
 public class MenuActivity extends AppCompatActivity {
 
     @Override
@@ -17,8 +19,9 @@ public class MenuActivity extends AppCompatActivity {
         newVersusGameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toBattleViewIntent = new Intent(getApplicationContext(), BattleActivity.class);
-                startActivity(toBattleViewIntent);
+                Intent intent = new Intent(getApplicationContext(), NextPlayerActivity.class);
+                intent.putExtra(NextPlayerActivity.EXTRA_PLAYER_IN_TURN, Player.PLAYER_1);
+                startActivity(intent);
             }
         });
     }
