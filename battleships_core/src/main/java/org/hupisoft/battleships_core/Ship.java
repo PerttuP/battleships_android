@@ -69,7 +69,7 @@ class Ship implements IShip {
         int x = mBowCoordinate.x();
         int y = mBowCoordinate.y();
 
-        if (mOrientation == Orientation.HORISONTAL) {
+        if (mOrientation == Orientation.HORIZONTAL) {
             x = x + length() - 1;
         } else {
             y = y + length() - 1;
@@ -83,7 +83,7 @@ class Ship implements IShip {
         int lastX = mBowCoordinate.x();
         int lastY = mBowCoordinate.y();
 
-        if (mOrientation == Orientation.HORISONTAL) {
+        if (mOrientation == Orientation.HORIZONTAL) {
             lastX = lastX + length() - 1;
         } else {
             lastY = lastY + length() - 1;
@@ -97,7 +97,7 @@ class Ship implements IShip {
         int lastX = mBowCoordinate.x() + 1;
         int lastY = mBowCoordinate.y() + 1;
 
-        if (mOrientation == Orientation.HORISONTAL) {
+        if (mOrientation == Orientation.HORIZONTAL) {
             lastX = mBowCoordinate.x() + length();
         } else {
             lastY = mBowCoordinate.y() + length();

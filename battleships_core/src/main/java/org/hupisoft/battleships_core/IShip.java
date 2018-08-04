@@ -19,7 +19,7 @@ public interface IShip {
         /**
          * Ship is placed horisontally.
          */
-        HORISONTAL
+        HORIZONTAL
     }
 
     /**

@@ -101,7 +101,7 @@ public class GameAreaBuilderTest {
         assertNotNull(area);
         assertEquals(1, area.getShips().size());
         IShip ship = area.getShips().get(0);
-        assertEquals(IShip.Orientation.HORISONTAL, ship.orientation());
+        assertEquals(IShip.Orientation.HORIZONTAL, ship.orientation());
         assertEquals(new Coordinate(3,5), ship.getBowCoordinates());
         checkShipsDoNotOverlap(area);
 
@@ -164,10 +164,10 @@ public class GameAreaBuilderTest {
         assertNotNull(area);
         assertEquals(2, area.getShips().size());
         IShip ship1 = area.getShips().get(0);
-        assertEquals(IShip.Orientation.HORISONTAL, ship1.orientation());
+        assertEquals(IShip.Orientation.HORIZONTAL, ship1.orientation());
         assertEquals(new Coordinate(3,5), ship1.getBowCoordinates());
         IShip ship2 = area.getShips().get(1);
-        assertEquals(IShip.Orientation.HORISONTAL, ship2.orientation());
+        assertEquals(IShip.Orientation.HORIZONTAL, ship2.orientation());
         assertEquals(new Coordinate(1,3), ship2.getBowCoordinates());
         checkShipsDoNotOverlap(area);
 

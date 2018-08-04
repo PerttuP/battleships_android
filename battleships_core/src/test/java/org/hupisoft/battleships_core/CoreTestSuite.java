@@ -1,5 +1,6 @@
 package org.hupisoft.battleships_core;
 
+import org.hupisoft.battleships_core.gamelogicwriter.WriterSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -12,7 +13,8 @@ import org.junit.runners.Suite;
         GameAreaTest.class,
         GameAreaBuilderTest.class,
         GameLogicTest.class,
-        GameLogicBuilderTest.class
+        GameLogicBuilderTest.class,
+        WriterSuite.class
 })
 
 /**

@@ -54,7 +54,7 @@ class GameAreaBuilder implements IGameAreaBuilder {
     private void setShipOrientation(IShip ship) {
         IShip.Orientation orientation = IShip.Orientation.VERTICAL;
         if (mRng.nextBoolean()) {
-            orientation = IShip.Orientation.HORISONTAL;
+            orientation = IShip.Orientation.HORIZONTAL;
         }
         ship.setOrientation(orientation);
     }
@@ -69,7 +69,7 @@ class GameAreaBuilder implements IGameAreaBuilder {
                 setShipOrientation(ship);
                 int lastX = area.width();
                 int lastY = area.height();
-                if (ship.orientation() == IShip.Orientation.HORISONTAL) {
+                if (ship.orientation() == IShip.Orientation.HORIZONTAL) {
                     lastX = area.width() - ship.length() + 1;
                 } else {
                     lastY = area.height() - ship.length() + 1;

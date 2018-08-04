@@ -16,7 +16,7 @@ public class ShipTest {
             for (int i = 0; i < ship.length(); ++i) {
                 assertTrue(ship.getOccupiedCoordinates().contains(new Coordinate(bow.x(), bow.y()+i)));
             }
-        } else if (ship.orientation() == IShip.Orientation.HORISONTAL) {
+        } else if (ship.orientation() == IShip.Orientation.HORIZONTAL) {
             for (int i = 0; i < ship.length(); ++i) {
                 assertTrue(ship.getOccupiedCoordinates().contains(new Coordinate(bow.x()+i, bow.y())));
             }
@@ -31,7 +31,7 @@ public class ShipTest {
                     assertTrue(ship.getRestrictedCoordinates().contains(new Coordinate(x, bow.y() + y)));
                 }
             }
-        } else if (ship.orientation() == IShip.Orientation.HORISONTAL) {
+        } else if (ship.orientation() == IShip.Orientation.HORIZONTAL) {
             for (int x = -1; x <= ship.length(); ++x) {
                 for (int y = bow.x()-1; y <= bow.x()+1; ++y) {
                     assertTrue(ship.getRestrictedCoordinates().contains(new Coordinate(bow.x() + x, y)));
@@ -70,9 +70,9 @@ public class ShipTest {
 
     @Test
     public void secondConstruction_createVerticalLongShip() {
-        Ship ship = new Ship(5, new Coordinate(2,3), IShip.Orientation.HORISONTAL);
+        Ship ship = new Ship(5, new Coordinate(2,3), IShip.Orientation.HORIZONTAL);
         assertEquals(5, ship.length());
-        assertEquals(IShip.Orientation.HORISONTAL, ship.orientation());
+        assertEquals(IShip.Orientation.HORIZONTAL, ship.orientation());
         assertEquals(0, ship.hitCount());
         assertFalse(ship.isDestroyed());
         assertEquals(new Coordinate(2,3), ship.getBowCoordinates());
@@ -116,10 +116,10 @@ public class ShipTest {
     public void setOrientationTest() {
         Ship ship = new Ship(3);
         assertEquals(IShip.Orientation.VERTICAL, ship.orientation());
-        ship.setOrientation(IShip.Orientation.HORISONTAL);
-        assertEquals(IShip.Orientation.HORISONTAL, ship.orientation());
-        ship.setOrientation(IShip.Orientation.HORISONTAL);
-        assertEquals(IShip.Orientation.HORISONTAL, ship.orientation());
+        ship.setOrientation(IShip.Orientation.HORIZONTAL);
+        assertEquals(IShip.Orientation.HORIZONTAL, ship.orientation());
+        ship.setOrientation(IShip.Orientation.HORIZONTAL);
+        assertEquals(IShip.Orientation.HORIZONTAL, ship.orientation());
         ship.setOrientation(IShip.Orientation.VERTICAL);
         assertEquals(IShip.Orientation.VERTICAL, ship.orientation());
         ship.setOrientation(IShip.Orientation.VERTICAL);
