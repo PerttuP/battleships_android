@@ -53,10 +53,10 @@ public class GameAreaSquareView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        mRect.left = this.getLeft();
-        mRect.top = this.getTop();
-        int width = Math.min(this.getWidth(), this.getHeight());
-        mRect.right = mRect.bottom = width;
+        mRect.left = 0;
+        mRect.top = 0;
+        mRect.right = getWidth();
+        mRect.bottom = getHeight();
 
         drawBackground(canvas);
         drawContent(canvas);
