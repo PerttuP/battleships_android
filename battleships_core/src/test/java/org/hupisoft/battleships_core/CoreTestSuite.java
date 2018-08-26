@@ -14,6 +14,8 @@ import org.junit.runners.Suite;
         GameAreaBuilderTest.class,
         GameLogicTest.class,
         GameLogicBuilderTest.class,
+        GameLogicJsonDefinitionsTest.class,
+        GameLogicJsonReaderTest.class,
         WriterSuite.class
 })
 
