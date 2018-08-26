@@ -1,6 +1,5 @@
 package org.hupisoft.battleships_core;
 
-import org.hupisoft.battleships_core.gamelogicwriter.WriterSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -15,8 +14,7 @@ import org.junit.runners.Suite;
         GameLogicTest.class,
         GameLogicBuilderTest.class,
         GameLogicJsonDefinitionsTest.class,
-        GameLogicJsonReaderTest.class,
-        WriterSuite.class
+        GameLogicJsonReaderTest.class
 })
 
 /**
