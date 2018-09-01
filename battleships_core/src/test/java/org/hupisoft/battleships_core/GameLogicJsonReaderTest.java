@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Unit tests for GameLogicJsonReader class.
+ */
 public class GameLogicJsonReaderTest {
 
     @Test

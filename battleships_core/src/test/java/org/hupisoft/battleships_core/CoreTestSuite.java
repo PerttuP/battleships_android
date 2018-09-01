@@ -14,7 +14,9 @@ import org.junit.runners.Suite;
         GameLogicTest.class,
         GameLogicBuilderTest.class,
         GameLogicJsonDefinitionsTest.class,
-        GameLogicJsonReaderTest.class
+        GameLogicJsonReaderTest.class,
+        GameLogicJsonWriterTest.class,
+        GameLogicJsonIntegrationTest.class
 })
 
 /**

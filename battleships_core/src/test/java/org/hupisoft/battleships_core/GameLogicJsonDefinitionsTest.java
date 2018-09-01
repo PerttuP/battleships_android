@@ -4,6 +4,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Verify GameLogic JSON tag names.
+ */
 public class GameLogicJsonDefinitionsTest {
     @Test
     public void gameLogicJsonDefinitionsTagsTest()
