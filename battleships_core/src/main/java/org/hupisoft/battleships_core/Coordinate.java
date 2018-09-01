@@ -1,6 +1,7 @@
 package org.hupisoft.battleships_core;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility class for expressing locations on game area.
@@ -54,7 +55,7 @@ public class Coordinate {
      * Get neigbor coordinates (horisontal, vertical and diagonal).
      * @return List of neighbour cooordinates.
      */
-    public ArrayList<Coordinate> neighbours() {
+    public List<Coordinate> neighbours() {
         ArrayList<Coordinate> neighbours = new ArrayList<>();
         for (int x = mX - 1; x <= mX+1; ++x) {
             for (int y = mY - 1; y <= mY + 1; ++y) {

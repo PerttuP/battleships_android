@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -50,7 +51,7 @@ public class GameAreaTest {
 
     @Test
     public void areaIsConstructedWithCorrectShips() {
-        ArrayList<IShip> actualShips = mArea.getShips();
+        List<IShip> actualShips = mArea.getShips();
         assertEquals(SHIP_COUNT, actualShips.size());
         for (IShip expectedShip : mShips) {
             assertTrue(actualShips.contains(expectedShip));
@@ -231,7 +232,7 @@ public class GameAreaTest {
             }
         }
 
-        ArrayList<Coordinate> unhitLocations = mArea.getNonHitLocations();
+        List<Coordinate> unhitLocations = mArea.getNonHitLocations();
         assertEquals(AREA_WIDTH*AREA_HEIGHT, unhitLocations.size());
 
         for (int x = 0; x < AREA_WIDTH; ++x) {
@@ -253,7 +254,7 @@ public class GameAreaTest {
             }
         }
 
-        ArrayList<Coordinate> unhitLocations = mArea.getNonHitLocations();
+        List<Coordinate> unhitLocations = mArea.getNonHitLocations();
         assertEquals(AREA_WIDTH*AREA_HEIGHT-1, unhitLocations.size());
 
         for (int x = 0; x < AREA_WIDTH; ++x) {
@@ -275,7 +276,7 @@ public class GameAreaTest {
             }
         }
 
-        ArrayList<Coordinate> unhitLocations = mArea.getNonHitLocations();
+        List<Coordinate> unhitLocations = mArea.getNonHitLocations();
         assertEquals(0, unhitLocations.size());
 
         for (int x = 0; x < AREA_WIDTH; ++x) {

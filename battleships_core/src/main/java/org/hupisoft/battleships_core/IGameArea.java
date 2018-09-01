@@ -1,6 +1,6 @@
 package org.hupisoft.battleships_core;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Interface for one player's own game area.
@@ -30,7 +30,7 @@ public interface IGameArea {
      * Get all ships on game area.
      * @return List of all ships. Includes destroyed ships.
      */
-    public ArrayList<IShip> getShips();
+    public List<IShip> getShips();
 
     /**
      *
@@ -55,7 +55,7 @@ public interface IGameArea {
      * Get locations that have not been hit yet.
      * @return List of coordinates for squares that have not been hit.
      */
-    ArrayList<Coordinate> getNonHitLocations();
+    List<Coordinate> getNonHitLocations();
 
     /**
      * Get restricted area.

@@ -1,6 +1,6 @@
 package org.hupisoft.battleships_core;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Interface for ships.
@@ -68,7 +68,7 @@ public interface IShip {
      * Get list of coordinates occupied by the ship in order from bow to rear.
      * @return List of coordinates.
      */
-    public ArrayList<Coordinate> getOccupiedCoordinates();
+    public List<Coordinate> getOccupiedCoordinates();
 
     /**
      * Get list of coordinates that are forbidden from other ships.
@@ -76,7 +76,7 @@ public interface IShip {
      * Coordinates are not in any specific order.
      * @return List of restricted coordinates.
      */
-    public ArrayList<Coordinate> getRestrictedCoordinates();
+    public List<Coordinate> getRestrictedCoordinates();
 
     /**
      * Get ship hit count.

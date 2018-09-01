@@ -1,6 +1,7 @@
 package org.hupisoft.battleships_core;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implements the IShip interface.
@@ -79,7 +80,7 @@ class Ship implements IShip {
     }
 
     @Override
-    public ArrayList<Coordinate> getOccupiedCoordinates() {
+    public List<Coordinate> getOccupiedCoordinates() {
         int lastX = mBowCoordinate.x();
         int lastY = mBowCoordinate.y();
 
@@ -93,7 +94,7 @@ class Ship implements IShip {
     }
 
     @Override
-    public ArrayList<Coordinate> getRestrictedCoordinates() {
+    public List<Coordinate> getRestrictedCoordinates() {
         int lastX = mBowCoordinate.x() + 1;
         int lastY = mBowCoordinate.y() + 1;
 
@@ -117,7 +118,7 @@ class Ship implements IShip {
         return isDestroyed();
     }
 
-    private ArrayList<Coordinate> gatherCoordinates(int firstX, int lastX, int firstY, int lastY) {
+    private List<Coordinate> gatherCoordinates(int firstX, int lastX, int firstY, int lastY) {
         ArrayList<Coordinate> coordinates = new ArrayList<>();
 
         for (int x = firstX; x <= lastX; ++x) {

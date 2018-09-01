@@ -2,7 +2,7 @@ package org.hupisoft.battleships_core;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -525,7 +525,7 @@ public class GameLogicJsonReaderTest {
         assertEquals(2, area1.hitCount());
         assertTrue(area1.getSquare(new Coordinate(4,5)).isHit());
         assertTrue(area1.getSquare(new Coordinate(5,6)).isHit());
-        ArrayList<IShip> ships1 = area1.getShips();
+        List<IShip> ships1 = area1.getShips();
         assertEquals(1, ships1.size());
         assertEquals(3, ships1.get(0).length());
         assertEquals(new Coordinate(1,2), ships1.get(0).getBowCoordinates());
@@ -538,7 +538,7 @@ public class GameLogicJsonReaderTest {
         assertTrue(area2.getSquare(new Coordinate(0,1)).isHit());
         assertTrue(area2.getSquare(new Coordinate(1,2)).isHit());
         assertTrue(area2.getSquare(new Coordinate(3,4)).isHit());
-        ArrayList<IShip> ships2 = area2.getShips();
+        List<IShip> ships2 = area2.getShips();
         assertEquals(1, ships2.size());
         assertEquals(3, ships2.get(0).length());
         assertEquals(new Coordinate(3,4), ships2.get(0).getBowCoordinates());

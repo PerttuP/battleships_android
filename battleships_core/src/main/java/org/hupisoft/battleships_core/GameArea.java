@@ -1,6 +1,7 @@
 package org.hupisoft.battleships_core;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implements the IGameArea interface.
@@ -43,7 +44,7 @@ class GameArea implements IGameArea {
     }
 
     @Override
-    public ArrayList<IShip> getShips() {
+    public List<IShip> getShips() {
         return mShips;
     }
 
@@ -82,7 +83,7 @@ class GameArea implements IGameArea {
     }
 
     @Override
-    public ArrayList<Coordinate> getNonHitLocations() {
+    public List<Coordinate> getNonHitLocations() {
         ArrayList<Coordinate> unhit = new ArrayList<>();
         for (int x = 0; x < width(); ++x) {
             for (int y = 0; y < height(); ++y) {

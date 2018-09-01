@@ -2,6 +2,7 @@ package org.hupisoft.battleships_core;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -60,7 +61,7 @@ class GameAreaBuilder implements IGameAreaBuilder {
     }
 
     private void placeShips(IGameArea area) {
-        ArrayList<IShip> ships = area.getShips();
+        List<IShip> ships = area.getShips();
         ArrayList<Coordinate> restrictedLocations = new ArrayList<>();
 
         for (IShip ship : ships) {
@@ -79,7 +80,7 @@ class GameAreaBuilder implements IGameAreaBuilder {
                 Coordinate c = new Coordinate(x,y);
                 ship.setBowCoordinates(c);
 
-                ArrayList<Coordinate> occupied = ship.getOccupiedCoordinates();
+                List<Coordinate> occupied = ship.getOccupiedCoordinates();
                 boolean restricted = !Collections.disjoint(occupied, restrictedLocations);
 
                 if (!restricted) {

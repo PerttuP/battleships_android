@@ -9,6 +9,7 @@ import org.mockito.stubbing.Answer;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -33,10 +34,10 @@ public class GameAreaBuilderTest {
     }
 
     private void checkShipsDoNotOverlap(IGameArea area) {
-        ArrayList<IShip> ships = area.getShips();
-        ArrayList<Coordinate> restricted = ships.get(0).getRestrictedCoordinates();
+        List<IShip> ships = area.getShips();
+        List<Coordinate> restricted = ships.get(0).getRestrictedCoordinates();
         for (int i = 1; i < ships.size(); ++i) {
-            ArrayList<Coordinate> occupied = ships.get(i).getOccupiedCoordinates();
+            List<Coordinate> occupied = ships.get(i).getOccupiedCoordinates();
             for (Coordinate c : occupied) {
                 assertFalse(restricted.contains(c));
             }
@@ -65,7 +66,7 @@ public class GameAreaBuilderTest {
         setDefaultRandomness();
         IGameArea area = mBuilder.createInitialGameArea(10,8, new int[]{2,3,5});
         assertNotNull(area);
-        ArrayList<IShip> ships = area.getShips();
+        List<IShip> ships = area.getShips();
         assertEquals(3, ships.size());
         assertEquals(2, ships.get(0).length());
         assertEquals(3, ships.get(1).length());

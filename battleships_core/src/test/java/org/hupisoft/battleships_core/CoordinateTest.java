@@ -1,7 +1,8 @@
 package org.hupisoft.battleships_core;
 
 import org.junit.Test;
-import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -47,7 +48,7 @@ public class CoordinateTest {
     public void getNeighboursTest() {
         Coordinate c = new Coordinate(0,0);
 
-        ArrayList<Coordinate> neighbours = c.neighbours();
+        List<Coordinate> neighbours = c.neighbours();
         assertEquals(8, neighbours.size());
         assertTrue(neighbours.contains(new Coordinate(-1,-1)));
         assertTrue(neighbours.contains(new Coordinate(-1,0)));
@@ -62,7 +63,7 @@ public class CoordinateTest {
     @Test
     public void isNeigbourTest() {
         Coordinate c = new Coordinate(0,0);
-        ArrayList<Coordinate> neighbours = c.neighbours();
+        List<Coordinate> neighbours = c.neighbours();
         assertEquals(8, neighbours.size());
 
         for (Coordinate inList : neighbours) {

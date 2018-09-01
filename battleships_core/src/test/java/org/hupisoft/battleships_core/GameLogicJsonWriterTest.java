@@ -3,7 +3,7 @@ package org.hupisoft.battleships_core;
 import org.junit.Test;
 
 import java.io.StringReader;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -24,7 +24,7 @@ public class GameLogicJsonWriterTest {
         assertEquals(expectedArea.height(), areaObj.getInt(GameLogicJsonDefinitions.HEIGHT_TAG));
 
         // Compare ships
-        ArrayList<IShip> expectedShips = expectedArea.getShips();
+        List<IShip> expectedShips = expectedArea.getShips();
         JsonArray shipsArray = areaObj.getJsonArray(GameLogicJsonDefinitions.SHIPS_TAG);
         assertEquals(expectedShips.size(), shipsArray.size());
 
