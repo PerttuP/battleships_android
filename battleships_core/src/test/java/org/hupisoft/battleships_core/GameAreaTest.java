@@ -231,7 +231,7 @@ public class GameAreaTest {
             }
         }
 
-        ArrayList<Coordinate> unhitLocations = mArea.getUnHitLocations();
+        ArrayList<Coordinate> unhitLocations = mArea.getNonHitLocations();
         assertEquals(AREA_WIDTH*AREA_HEIGHT, unhitLocations.size());
 
         for (int x = 0; x < AREA_WIDTH; ++x) {
@@ -253,7 +253,7 @@ public class GameAreaTest {
             }
         }
 
-        ArrayList<Coordinate> unhitLocations = mArea.getUnHitLocations();
+        ArrayList<Coordinate> unhitLocations = mArea.getNonHitLocations();
         assertEquals(AREA_WIDTH*AREA_HEIGHT-1, unhitLocations.size());
 
         for (int x = 0; x < AREA_WIDTH; ++x) {
@@ -275,7 +275,7 @@ public class GameAreaTest {
             }
         }
 
-        ArrayList<Coordinate> unhitLocations = mArea.getUnHitLocations();
+        ArrayList<Coordinate> unhitLocations = mArea.getNonHitLocations();
         assertEquals(0, unhitLocations.size());
 
         for (int x = 0; x < AREA_WIDTH; ++x) {
@@ -285,5 +285,17 @@ public class GameAreaTest {
                 verifyNoMoreInteractions(sqr);
             }
         }
+    }
+
+    @Test
+    public void getRestrictedInstanceTest() {
+        IRestrictedGameArea restricted = mArea.getRestrictedInstance();
+        assertEquals(mArea.width(), restricted.width());
+        assertEquals(mArea.height(), restricted.height());
+        assertEquals(mArea.hitCount(), restricted.hitCount());
+        assertEquals(mArea.getNonHitLocations(), restricted.getNonHitLocations());
+        assertEquals(3, restricted.remainingShipCount());
+        assertEquals(0, restricted.destroyedShips().size());
+        assertEquals(3, restricted.remainingShipLengths().size());
     }
 }

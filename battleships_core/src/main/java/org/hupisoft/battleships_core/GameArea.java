@@ -82,7 +82,7 @@ class GameArea implements IGameArea {
     }
 
     @Override
-    public ArrayList<Coordinate> getUnHitLocations() {
+    public ArrayList<Coordinate> getNonHitLocations() {
         ArrayList<Coordinate> unhit = new ArrayList<>();
         for (int x = 0; x < width(); ++x) {
             for (int y = 0; y < height(); ++y) {
@@ -93,5 +93,10 @@ class GameArea implements IGameArea {
             }
         }
         return unhit;
+    }
+
+    @Override
+    public IRestrictedGameArea getRestrictedInstance() {
+        return new RestrictedGameAreaWrapper(this);
     }
 }

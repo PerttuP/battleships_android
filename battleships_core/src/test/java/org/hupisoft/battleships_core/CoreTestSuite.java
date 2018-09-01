@@ -9,6 +9,7 @@ import org.junit.runners.Suite;
         CoordinateTest.class,
         ShipTest.class,
         SquareTest.class,
+        RestrictedGameAreaWrapperTest.class,
         GameAreaTest.class,
         GameAreaBuilderTest.class,
         GameLogicTest.class,

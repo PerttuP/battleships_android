@@ -2,7 +2,7 @@ package org.hupisoft.battleships_ai;
 
 import org.hupisoft.battleships_core.Coordinate;
 import org.hupisoft.battleships_core.HitResult;
-import org.hupisoft.battleships_core.IGameArea;
+import org.hupisoft.battleships_core.IRestrictedGameArea;
 
 /**
  * Interface for all different battleships AI implementations.
@@ -12,11 +12,9 @@ public interface IBattleShipsAI {
     /**
      * Set target game area. This should be the AI's opponents game area.
      * Calling the method will reset AI's possible caches, forgetting the previous game.
-     * TODO: AI should not be allowed to modify area directly.
-     * TODO: Separate IGameArea to read-only and modifiable interface.
      * @param targetArea AI's opponent's game area.
      */
-    void setTargetGameArea(IGameArea targetArea);
+    void setTargetGameArea(IRestrictedGameArea targetArea);
 
     /**
      * Decide the next hit location.

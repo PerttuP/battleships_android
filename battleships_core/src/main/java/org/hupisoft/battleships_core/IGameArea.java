@@ -55,5 +55,11 @@ public interface IGameArea {
      * Get locations that have not been hit yet.
      * @return List of coordinates for squares that have not been hit.
      */
-    ArrayList<Coordinate> getUnHitLocations();
+    ArrayList<Coordinate> getNonHitLocations();
+
+    /**
+     * Get restricted area.
+     * @return Restricted game area instance matching this area.
+     */
+    IRestrictedGameArea getRestrictedInstance();
 }
