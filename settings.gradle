@@ -1,1 +1,1 @@
-include ':app', ':battleships_core'
+include ':app', ':battleships_core', ':battleships_ai'

@@ -2,8 +2,7 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'javax.json:javax.json-api:1.0'
-    implementation 'org.glassfish:javax.json:1.0'
+    implementation project(':battleships_core')
     testImplementation 'org.mockito:mockito-core:2.19.0'
     testImplementation 'junit:junit:4.12'
 }
