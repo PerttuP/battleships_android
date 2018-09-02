@@ -23,16 +23,17 @@ class GameAreaBuilder implements IGameAreaBuilder {
 
     @Override
     public IGameArea createInitialGameArea(int width, int height, int[] shipLengths) {
-        ArrayList<ArrayList<ISquare>> squares = createSquares(width, height);
+        List<List<ISquare>> squares = createSquares(width, height);
         ArrayList<IShip> ships = createShips(shipLengths);
         IGameArea area = new GameArea(squares, ships);
         placeShips(area);
+        setShipOccupations(ships, squares);
 
         return area;
     }
 
-    private ArrayList<ArrayList<ISquare>> createSquares(int width, int height) {
-        ArrayList<ArrayList<ISquare>> squares = new ArrayList<>();
+    private List<List<ISquare>> createSquares(int width, int height) {
+        List<List<ISquare>> squares = new ArrayList<>();
         for (int x = 0; x < width; ++x) {
             ArrayList<ISquare> col = new ArrayList<>();
             for (int y = 0; y < height; ++y) {
@@ -87,6 +88,20 @@ class GameAreaBuilder implements IGameAreaBuilder {
                     restrictedLocations.addAll(ship.getRestrictedCoordinates());
                     placingOk = true;
                 }
+            }
+        }
+    }
+
+    /**
+     * Set square ship according to ship positioning.
+     * @param ships List of ships. bow coordinate and orientation must have been set previously.
+     * @param squares Area squares in matrix. First index is x-coordinate and second is y-coordinate.
+     */
+    public static void setShipOccupations(List<IShip> ships, List<List<ISquare>> squares) {
+        for (IShip ship : ships) {
+            List<Coordinate> occupied = ship.getOccupiedCoordinates();
+            for (Coordinate c : occupied) {
+                squares.get(c.x()).get(c.y()).setShip(ship);
             }
         }
     }

@@ -15,8 +15,8 @@ import static org.junit.Assert.*;
  */
 public class GameAreaTest {
 
-    private ArrayList<ArrayList<ISquare>> mSquares = null;
-    private ArrayList<IShip> mShips = null;
+    private List<List<ISquare>> mSquares = null;
+    private List<IShip> mShips = null;
     private GameArea mArea = null;
     private final int AREA_WIDTH = 10;
     private final int AREA_HEIGHT = 8;
@@ -27,7 +27,7 @@ public class GameAreaTest {
         // Create mock squares.
         mSquares = new ArrayList<>();
         for (int x = 0; x < AREA_WIDTH; ++x) {
-            ArrayList<ISquare> col = new ArrayList<>();
+            List<ISquare> col = new ArrayList<>();
             for (int y = 0; y < AREA_HEIGHT; ++y) {
                 col.add(mock(ISquare.class));
             }

@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Wrapper to restrict access to game area.
  */
-public class RestrictedGameAreaWrapper implements IRestrictedGameArea {
+class RestrictedGameAreaWrapper implements IRestrictedGameArea {
 
     private IGameArea mArea;
 

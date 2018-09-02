@@ -9,8 +9,8 @@ import java.util.List;
  */
 class GameArea implements IGameArea {
 
-    private ArrayList<ArrayList<ISquare>> mSquares = null;
-    private ArrayList<IShip> mShips = null;
+    private List<List<ISquare>> mSquares = null;
+    private List<IShip> mShips = null;
 
     /**
      * Constructor. Squares and ships are expected to be initialized previously.
@@ -19,7 +19,7 @@ class GameArea implements IGameArea {
      *                All rows must have same length. All columns must have same length.
      * @param ships List of ships.
      */
-    GameArea(ArrayList<ArrayList<ISquare>> squares, ArrayList<IShip> ships) {
+    GameArea(List<List<ISquare>> squares, List<IShip> ships) {
         mSquares = squares;
         mShips = ships;
     }

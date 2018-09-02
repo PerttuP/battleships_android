@@ -2,6 +2,7 @@ package org.hupisoft.battleships_core;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -68,10 +69,11 @@ public class GameLogicJsonReader {
         try {
             Integer areaWidth = jsonObject.getInt(GameLogicJsonDefinitions.WIDTH_TAG);
             Integer areaHeight = jsonObject.getInt(GameLogicJsonDefinitions.HEIGHT_TAG);
-            ArrayList<ArrayList<ISquare>> squares = createSquares(areaWidth, areaHeight);
+            List<List<ISquare>> squares = createSquares(areaWidth, areaHeight);
 
             JsonArray shipsObj = jsonObject.getJsonArray(GameLogicJsonDefinitions.SHIPS_TAG);
             ArrayList<IShip> ships = createShipsFromJson(shipsObj);
+            GameAreaBuilder.setShipOccupations(ships, squares);
 
             GameArea area = new GameArea(squares, ships);
 
@@ -151,11 +153,11 @@ public class GameLogicJsonReader {
         }
     }
 
-    private ArrayList<ArrayList<ISquare>> createSquares(int width, int height)
+    private List<List<ISquare>> createSquares(int width, int height)
     {
-        ArrayList<ArrayList<ISquare>> squares = new ArrayList<>();
+        List<List<ISquare>> squares = new ArrayList<>();
         for (int x = 0; x < width; ++x) {
-            ArrayList<ISquare> column = new ArrayList<>();
+            List<ISquare> column = new ArrayList<>();
             for (int y = 0; y < height; ++y) {
                 column.add(new Square(new Coordinate(x,y)));
             }

@@ -45,6 +45,17 @@ public class GameAreaBuilderTest {
         }
     }
 
+    private void checkShipsOccupyCorrectSquares(IGameArea area) {
+        List<IShip> ships = area.getShips();
+        for (IShip ship : ships) {
+            List<Coordinate> occupied = ship.getOccupiedCoordinates();
+            assertEquals(ship.length(), occupied.size());
+            for (Coordinate c : occupied) {
+                assertEquals(ship, area.getSquare(c).getShip());
+            }
+        }
+    }
+
     @Before
     public void setUp() {
         mRng = mock(Random.class);
@@ -59,6 +70,7 @@ public class GameAreaBuilderTest {
         assertEquals(10, area.width());
         assertEquals(8, area.height());
         checkShipsDoNotOverlap(area);
+        checkShipsOccupyCorrectSquares(area);
     }
 
     @Test
@@ -72,6 +84,7 @@ public class GameAreaBuilderTest {
         assertEquals(3, ships.get(1).length());
         assertEquals(5, ships.get(2).length());
         checkShipsDoNotOverlap(area);
+        checkShipsOccupyCorrectSquares(area);
     }
 
     @Test
@@ -90,6 +103,7 @@ public class GameAreaBuilderTest {
         }
 
         checkShipsDoNotOverlap(area);
+        checkShipsOccupyCorrectSquares(area);
     }
 
     @Test
@@ -105,6 +119,7 @@ public class GameAreaBuilderTest {
         assertEquals(IShip.Orientation.HORIZONTAL, ship.orientation());
         assertEquals(new Coordinate(3,5), ship.getBowCoordinates());
         checkShipsDoNotOverlap(area);
+        checkShipsOccupyCorrectSquares(area);
 
         verify(mRng).nextBoolean();
         verify(mRng).nextInt(6);
@@ -125,6 +140,7 @@ public class GameAreaBuilderTest {
         assertEquals(IShip.Orientation.VERTICAL, ship.orientation());
         assertEquals(new Coordinate(9,2), ship.getBowCoordinates());
         checkShipsDoNotOverlap(area);
+        checkShipsOccupyCorrectSquares(area);
 
         verify(mRng).nextBoolean();
         verify(mRng).nextInt(10);
@@ -171,6 +187,7 @@ public class GameAreaBuilderTest {
         assertEquals(IShip.Orientation.HORIZONTAL, ship2.orientation());
         assertEquals(new Coordinate(1,3), ship2.getBowCoordinates());
         checkShipsDoNotOverlap(area);
+        checkShipsOccupyCorrectSquares(area);
 
         InOrder order = inOrder(mRng);
         order.verify(mRng).nextBoolean();
