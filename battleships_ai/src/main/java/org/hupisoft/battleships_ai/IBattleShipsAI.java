@@ -18,7 +18,7 @@ public interface IBattleShipsAI {
 
     /**
      * Decide the next hit location.
-     * @return Location on target area to be hit.
+     * @return Location on target area to be hit. Null if no legal hit are available.
      */
     Coordinate makeDecision();
 
