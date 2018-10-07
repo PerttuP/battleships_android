@@ -145,4 +145,37 @@ public class RestrictedGameAreaWrapperTest {
         verify(mMockArea).getNonHitLocations();
     }
 
+    @Test
+    public void isHitReturnsFalseIfLocationDoesNotExist()
+    {
+        Coordinate target = new Coordinate(-1,-1);
+        when(mMockArea.getSquare(target)).thenReturn(null);
+        assertFalse(mRestrictedArea.isHit(target));
+        verify(mMockArea).getSquare(target);
+    }
+
+    @Test
+    public void isHitReturnsFalseIfSquareIsNotHit()
+    {
+        Coordinate target = new Coordinate(3,4);
+        ISquare mockSquare = mock(ISquare.class);
+        when(mockSquare.isHit()).thenReturn(false);
+        when(mMockArea.getSquare(target)).thenReturn(mockSquare);
+        assertFalse(mRestrictedArea.isHit(target));
+        verify(mMockArea).getSquare(target);
+        verify(mockSquare).isHit();
+    }
+
+    @Test
+    public void isHitReturnsTrueIfSquareIsHit()
+    {
+        Coordinate target = new Coordinate(3,4);
+        ISquare mockSquare = mock(ISquare.class);
+        when(mockSquare.isHit()).thenReturn(true);
+        when(mMockArea.getSquare(target)).thenReturn(mockSquare);
+        assertTrue(mRestrictedArea.isHit(target));
+        verify(mMockArea).getSquare(target);
+        verify(mockSquare).isHit();
+    }
+
 }

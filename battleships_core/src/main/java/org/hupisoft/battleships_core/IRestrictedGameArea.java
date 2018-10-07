@@ -47,4 +47,11 @@ public interface IRestrictedGameArea {
      * @return List of coordinates of non-hit locations.
      */
     List<Coordinate> getNonHitLocations();
+
+    /**
+     * Check if given location has already been hit.
+     * @param location Target location.
+     * @return True, if target square has been hit.
+     */
+    boolean isHit(Coordinate location);
 }

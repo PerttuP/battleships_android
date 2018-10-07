@@ -66,4 +66,14 @@ class RestrictedGameAreaWrapper implements IRestrictedGameArea {
     public List<Coordinate> getNonHitLocations() {
         return mArea.getNonHitLocations();
     }
+
+    @Override
+    public boolean isHit(Coordinate location) {
+        boolean isHit = false;
+        ISquare sqr = mArea.getSquare(location);
+        if (sqr != null) {
+            isHit = sqr.isHit();
+        }
+        return isHit;
+    }
 }
