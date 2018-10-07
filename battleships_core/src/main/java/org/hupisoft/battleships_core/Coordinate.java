@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Utility class for expressing locations on game area.
  */
-public class Coordinate {
+public class Coordinate implements Comparable<Coordinate> {
 
     private int mX;
     private int mY;
@@ -76,5 +76,14 @@ public class Coordinate {
      */
     public boolean isNeighbour(Coordinate other) {
         return neighbours().contains(other);
+    }
+
+    @Override
+    public int compareTo(Coordinate other) {
+        int result = Integer.compare(this.x(), other.x());
+        if (result == 0) {
+            result = Integer.compare(this.y(), other.y());
+        }
+        return result;
     }
 }

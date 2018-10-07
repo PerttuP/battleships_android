@@ -81,4 +81,26 @@ public class CoordinateTest {
         Coordinate c = new Coordinate(3,4);
         assertEquals("Coordinate{3,4}", c.toString());
     }
+
+    @Test
+    public void compareTest() {
+        Coordinate c = new Coordinate(1,2);
+        assertEquals(0, c.compareTo(c));
+        assertEquals(0, c.compareTo(new Coordinate(1,2)));
+
+        assertEquals(1, c.compareTo(new Coordinate(0,2)));
+        assertEquals(1, c.compareTo(new Coordinate(1,1)));
+        assertEquals(1, c.compareTo(new Coordinate(0,1)));
+
+        assertEquals(-1, c.compareTo(new Coordinate(2,2)));
+        assertEquals(-1, c.compareTo(new Coordinate(1,3)));
+        assertEquals(-1, c.compareTo(new Coordinate(2,3)));
+
+        try {
+            c.compareTo(null);
+            fail();
+        } catch (NullPointerException e) {
+
+        }
+    }
 }
