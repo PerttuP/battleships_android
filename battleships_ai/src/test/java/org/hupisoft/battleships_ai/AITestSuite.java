@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
     BattleShipAIFactoryTest.class,
     RandomAITest.class,
-    HitProbabilityCalculatorTest.class
+    HitProbabilityCalculatorTest.class,
+    DefaultShipDestroyerTest.class
 })
 
 /**

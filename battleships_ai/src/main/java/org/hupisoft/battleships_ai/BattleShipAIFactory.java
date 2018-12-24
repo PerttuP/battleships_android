@@ -9,6 +9,7 @@ public class BattleShipAIFactory {
 
     // Provided AI implementations:
     public static final String RANDOM_AI = "RandomAI";
+    public static final String PROBABILITY_AI = "ProbabilityAI";
 
     /**
      * Create new AI instance.
@@ -20,6 +21,11 @@ public class BattleShipAIFactory {
 
         if (id.equals(RANDOM_AI)) {
             ai = new RandomAI(new Random());
+        }
+        else if (id.equals(PROBABILITY_AI)) {
+            IHitProbabilityCalculator calculator = new HitProbabilityCalculator();
+            IShipDestroyer destroyer = new DefaultShipDestroyer();
+            ai = new ProbabilityAI(calculator, destroyer);
         }
 
         return ai;

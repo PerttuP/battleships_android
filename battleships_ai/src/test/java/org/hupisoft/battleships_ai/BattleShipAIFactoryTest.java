@@ -13,6 +13,7 @@ public class BattleShipAIFactoryTest {
     public void verifyAiIdentifiers()
     {
         assertEquals("RandomAI", BattleShipAIFactory.RANDOM_AI);
+        assertEquals("ProbabilityAI", BattleShipAIFactory.PROBABILITY_AI);
     }
 
     @Test
@@ -33,6 +34,22 @@ public class BattleShipAIFactoryTest {
         IBattleShipsAI ai2 = factory.createAI(BattleShipAIFactory.RANDOM_AI);
         assertNotNull(ai2);
         assertNotNull((RandomAI)ai2);
+
+        assertNotEquals(ai1, ai2);
+    }
+
+    @Test
+    public void createUniqueProbabilityAITest()
+    {
+        BattleShipAIFactory factory = new BattleShipAIFactory();
+
+        IBattleShipsAI ai1 = factory.createAI("ProbabilityAI");
+        assertNotNull(ai1);
+        assertNotNull((ProbabilityAI)ai1);
+
+        IBattleShipsAI ai2 = factory.createAI(BattleShipAIFactory.PROBABILITY_AI);
+        assertNotNull(ai2);
+        assertNotNull((ProbabilityAI)ai2);
 
         assertNotEquals(ai1, ai2);
     }
