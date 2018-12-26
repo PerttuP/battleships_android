@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-class HitProbabilityCalculator  implements IHitProbabilityCalculator {
+public class HitProbabilityCalculator  implements IHitProbabilityCalculator {
 
     @Override
     public int getProbabilityFactor(IRestrictedGameArea area, Coordinate location) {

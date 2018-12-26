@@ -9,7 +9,8 @@ import org.junit.runners.Suite;
     BattleShipAIFactoryTest.class,
     RandomAITest.class,
     HitProbabilityCalculatorTest.class,
-    DefaultShipDestroyerTest.class
+    DefaultShipDestroyerTest.class,
+    ProbabilityAITest.class
 })
 
 /**

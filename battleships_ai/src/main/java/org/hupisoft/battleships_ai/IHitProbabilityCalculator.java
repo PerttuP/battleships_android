@@ -6,7 +6,7 @@ import org.hupisoft.battleships_core.IRestrictedGameArea;
 /**
  * Interface for finding most likely hidden ship locations.
  */
-interface IHitProbabilityCalculator {
+public interface IHitProbabilityCalculator {
 
     /**
      * Get hidden ship probability factor for an individual location.

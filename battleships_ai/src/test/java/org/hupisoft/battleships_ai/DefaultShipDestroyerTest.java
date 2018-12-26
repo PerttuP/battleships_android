@@ -6,6 +6,7 @@ import org.hupisoft.battleships_core.IRestrictedGameArea;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -20,25 +21,34 @@ public class DefaultShipDestroyerTest {
 
     @Before
     public void setUp() {
+        List<Integer> shipLengths = new ArrayList<>();
+        shipLengths.add(2);
+        shipLengths.add(3);
         mDestroyer = new DefaultShipDestroyer();
         mArea = mock(IRestrictedGameArea.class);
+        when(mArea.remainingShipLengths()).thenReturn(shipLengths);
         mCalculator = mock(IHitProbabilityCalculator.class);
         mOrigin = new Coordinate(3,4);
     }
 
-    private void whenInitialized(int pNorth, int pSouth, int pWest, int pEast) {
-        when(mCalculator.getProbabilityFactor(mArea, new Coordinate(mOrigin.x(),mOrigin.y()-1))).thenReturn(pNorth);
-        when(mCalculator.getProbabilityFactor(mArea, new Coordinate(mOrigin.x(),mOrigin.y()+1))).thenReturn(pSouth);
-        when(mCalculator.getProbabilityFactor(mArea, new Coordinate(mOrigin.x()-1,mOrigin.y()))).thenReturn(pWest);
-        when(mCalculator.getProbabilityFactor(mArea, new Coordinate(mOrigin.x()+1,mOrigin.y()))).thenReturn(pEast);
+    private void whenInitialized(int[] pNorth, int[] pSouth, int[] pWest, int[] pEast) {
+        for (int i = 1; i < 3; ++i) {
+            when(mCalculator.getProbabilityFactor(mArea, new Coordinate(mOrigin.x(), mOrigin.y() - i))).thenReturn(pNorth[i-1]);
+            when(mCalculator.getProbabilityFactor(mArea, new Coordinate(mOrigin.x(), mOrigin.y() + i))).thenReturn(pSouth[i-1]);
+            when(mCalculator.getProbabilityFactor(mArea, new Coordinate(mOrigin.x() - i, mOrigin.y()))).thenReturn(pWest[i-1]);
+            when(mCalculator.getProbabilityFactor(mArea, new Coordinate(mOrigin.x() + i, mOrigin.y()))).thenReturn(pEast[i-1]);
+        }
     }
 
     private void verifyInitialized()
     {
-        verify(mCalculator).getProbabilityFactor(mArea, new Coordinate(mOrigin.x(),mOrigin.y()-1));
-        verify(mCalculator).getProbabilityFactor(mArea, new Coordinate(mOrigin.x(),mOrigin.y()+1));
-        verify(mCalculator).getProbabilityFactor(mArea, new Coordinate(mOrigin.x()-1, mOrigin.y()));
-        verify(mCalculator).getProbabilityFactor(mArea, new Coordinate(mOrigin.x()+1 ,mOrigin.y()));
+        for (int i = 1; i < 3; ++i) {
+            verify(mCalculator).getProbabilityFactor(mArea, new Coordinate(mOrigin.x(), mOrigin.y() - i));
+            verify(mCalculator).getProbabilityFactor(mArea, new Coordinate(mOrigin.x(), mOrigin.y() + i));
+            verify(mCalculator).getProbabilityFactor(mArea, new Coordinate(mOrigin.x() - i, mOrigin.y()));
+            verify(mCalculator).getProbabilityFactor(mArea, new Coordinate(mOrigin.x() + i, mOrigin.y()));
+        }
+        verifyNoMoreInteractions(mCalculator);
     }
 
     @Test
@@ -49,7 +59,7 @@ public class DefaultShipDestroyerTest {
 
     @Test
     public void destroyerHas4CandidatesAfterInitIfNoRestrictions() {
-        whenInitialized(1,2,3,4);
+        whenInitialized(new int[]{1,1,1,}, new int[]{2,2,2}, new int[]{3,3,3}, new int[]{4,4,4});
 
         mDestroyer.initialize(mArea, mOrigin, mCalculator);
         List<Coordinate> candidates = mDestroyer.getCandidates();
@@ -64,7 +74,7 @@ public class DefaultShipDestroyerTest {
 
     @Test
     public void candidateIsExcludedIfProbabilityIs0() {
-        whenInitialized(0,2,3,0);
+        whenInitialized(new int[]{0,1,1,}, new int[]{2,2,2}, new int[]{3,3,3}, new int[]{0,4,4});
 
         mDestroyer.initialize(mArea, mOrigin, mCalculator);
         List<Coordinate> candidates = mDestroyer.getCandidates();
@@ -77,7 +87,7 @@ public class DefaultShipDestroyerTest {
 
     @Test
     public void candidateWightHighestProbabilityIsSelected() {
-        whenInitialized(0,2,3,0);
+        whenInitialized(new int[]{0,1,1,}, new int[]{2,2,2}, new int[]{3,3,3}, new int[]{0,4,4});
 
         mDestroyer.initialize(mArea, mOrigin, mCalculator);
         assertEquals(new Coordinate(2,4), mDestroyer.getNextTarget());
@@ -86,76 +96,76 @@ public class DefaultShipDestroyerTest {
         assertTrue(candidates.contains(new Coordinate(3,5)));
         assertTrue(candidates.contains(new Coordinate(2,4)));
 
-        verify(mCalculator, times(2)).getProbabilityFactor(mArea, new Coordinate(mOrigin.x(),mOrigin.y()+1));
-        verify(mCalculator, times(2)).getProbabilityFactor(mArea, new Coordinate(mOrigin.x()-1, mOrigin.y()));
+        verifyInitialized();
     }
 
     @Test
     public void candidateIsRemovedIfMissed() {
-        whenInitialized(0,2,3,0);
+        whenInitialized(new int[]{0,1,1,}, new int[]{2,2,2}, new int[]{3,3,3}, new int[]{0,4,4});
         mDestroyer.initialize(mArea, mOrigin, mCalculator);
         mDestroyer.confirmAction(HitResult.EMPTY, new Coordinate(2,4));
         List<Coordinate> candidates = mDestroyer.getCandidates();
         assertEquals(1, candidates.size());
         assertTrue(candidates.contains(new Coordinate(3,5)));
+        verifyInitialized();
     }
 
     @Test
     public void candidatesAreUpdatedIfHit1() {
-        whenInitialized(1,2,3,4);
-        when(mCalculator.getProbabilityFactor(mArea, new Coordinate(5,4))).thenReturn(3);
+        whenInitialized(new int[]{1,1,1,}, new int[]{2,2,2}, new int[]{3,3,3}, new int[]{4,4,4});
         mDestroyer.initialize(mArea, mOrigin, mCalculator);
         mDestroyer.confirmAction(HitResult.SHIP_HIT, new Coordinate(4,4));
         List<Coordinate> candidates = mDestroyer.getCandidates();
         assertEquals(2, candidates.size());
         assertTrue(candidates.contains(new Coordinate(2,4)));
         assertTrue(candidates.contains(new Coordinate(5,4)));
+        verifyInitialized();
     }
 
     @Test
     public void candidatesAreUpdatedIfHit2() {
-        whenInitialized(2,1,4,3);
-        when(mCalculator.getProbabilityFactor(mArea, new Coordinate(1,4))).thenReturn(3);
+        whenInitialized(new int[]{2,1,1,}, new int[]{1,2,2}, new int[]{4,3,3}, new int[]{3,4,4});
         mDestroyer.initialize(mArea, mOrigin, mCalculator);
         mDestroyer.confirmAction(HitResult.SHIP_HIT, new Coordinate(2,4));
         List<Coordinate> candidates = mDestroyer.getCandidates();
         assertEquals(2, candidates.size());
         assertTrue(candidates.contains(new Coordinate(1,4)));
         assertTrue(candidates.contains(new Coordinate(4,4)));
+        verifyInitialized();
     }
 
     @Test
     public void candidatesAreUpdatedIfHit3() {
-        whenInitialized(1,4,3,2);
-        when(mCalculator.getProbabilityFactor(mArea, new Coordinate(3,6))).thenReturn(3);
+        whenInitialized(new int[]{1,1,1,}, new int[]{4,2,2}, new int[]{3,3,3}, new int[]{2,4,4});
         mDestroyer.initialize(mArea, mOrigin, mCalculator);
         mDestroyer.confirmAction(HitResult.SHIP_HIT, new Coordinate(3,5));
         List<Coordinate> candidates = mDestroyer.getCandidates();
         assertEquals(2, candidates.size());
         assertTrue(candidates.contains(new Coordinate(3,3)));
         assertTrue(candidates.contains(new Coordinate(3,6)));
+        verifyInitialized();
     }
 
     @Test
     public void candidatesAreUpdatedIfHit4() {
-        whenInitialized(4,3,2,1);
-        when(mCalculator.getProbabilityFactor(mArea, new Coordinate(3,2))).thenReturn(3);
+        whenInitialized(new int[]{4,1,1,}, new int[]{3,2,2}, new int[]{2,3,3}, new int[]{1,4,4});
         mDestroyer.initialize(mArea, mOrigin, mCalculator);
         mDestroyer.confirmAction(HitResult.SHIP_HIT, new Coordinate(3,3));
         List<Coordinate> candidates = mDestroyer.getCandidates();
         assertEquals(2, candidates.size());
         assertTrue(candidates.contains(new Coordinate(3,2)));
         assertTrue(candidates.contains(new Coordinate(3,5)));
+        verifyInitialized();
     }
 
     @Test
     public void candidateIsOnlyRemovedWhenNewCandidateHasProbability0() {
-        whenInitialized(0,2,3,3);
-        when(mCalculator.getProbabilityFactor(mArea, new Coordinate(1,4))).thenReturn(0);
+        whenInitialized(new int[]{0,1,1,}, new int[]{2,2,2}, new int[]{3,0,3}, new int[]{2,4,4});
         mDestroyer.initialize(mArea, mOrigin, mCalculator);
         mDestroyer.confirmAction(HitResult.SHIP_HIT, new Coordinate(2,4));
         List<Coordinate> candidates = mDestroyer.getCandidates();
         assertEquals(1, candidates.size());
         assertTrue(candidates.contains(new Coordinate(4,4)));
+        verifyInitialized();
     }
 }

@@ -32,7 +32,6 @@ public class ProbabilityAITest {
 
             Coordinate target = currentAI.makeDecision();
             assertNotNull(target);
-            System.out.printf("%s: %s\n", logic.getCurrentPlayer(), target);
             HitResult hitResult = logic.playerAction(target);
             assertNotEquals(HitResult.ALREADY_HIT, hitResult);
             assertNotEquals(HitResult.GAME_HAS_ENDED, hitResult);

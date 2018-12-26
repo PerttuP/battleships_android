@@ -6,26 +6,27 @@ import org.hupisoft.battleships_core.IRestrictedGameArea;
 import org.hupisoft.battleships_core.IShip;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Default ship destroyer. Selects most probable candidate.
  */
 class DefaultShipDestroyer implements IShipDestroyer {
 
-    private IRestrictedGameArea mArea;
     private Coordinate mOrigin;
-    private IHitProbabilityCalculator mCalculator;
     private List<Coordinate> mCandidates;
+    private Map<Coordinate, Integer> mProbabilities;
 
     /**
      * Constructor.
      */
     DefaultShipDestroyer() {
-        mArea = null;
         mOrigin = null;
-        mCalculator = null;
         mCandidates = null;
+        mProbabilities = null;
     }
 
     /**
@@ -38,10 +39,11 @@ class DefaultShipDestroyer implements IShipDestroyer {
 
     @Override
     public void initialize(IRestrictedGameArea area, Coordinate origin, IHitProbabilityCalculator calculator) {
-        mArea = area;
         mOrigin = origin;
-        mCalculator = calculator;
-        mCandidates = getInitialCandidates(origin);
+
+        int maxLength = Collections.max(area.remainingShipLengths());
+        mProbabilities = getInitialProbabilities(origin, maxLength, area, calculator);
+        mCandidates = getInitialCandidates(origin, mProbabilities);
     }
 
     @Override
@@ -50,7 +52,7 @@ class DefaultShipDestroyer implements IShipDestroyer {
         Coordinate target = null;
         int topProbability = 0;
         for (Coordinate c : mCandidates) {
-            int p = mCalculator.getProbabilityFactor(mArea, c);
+            int p = mProbabilities.get(c);
             if (p > topProbability) {
                 target = c;
                 topProbability = p;
@@ -81,7 +83,9 @@ class DefaultShipDestroyer implements IShipDestroyer {
         removeCandidatesOfWrongOrientation(mOrigin, orientation, mCandidates);
     }
 
-    private List<Coordinate> getInitialCandidates(Coordinate origin) {
+    private List<Coordinate> getInitialCandidates(Coordinate origin,
+                                                  Map<Coordinate, Integer> probabilities)
+    {
         List<Coordinate> candidates = new ArrayList<>();
         List<Coordinate> aux = new ArrayList<>();
         aux.add(new Coordinate(origin.x()-1, origin.y()));
@@ -90,7 +94,7 @@ class DefaultShipDestroyer implements IShipDestroyer {
         aux.add(new Coordinate(origin.x(), origin.y()+1));
 
         for (Coordinate c : aux) {
-            if (mCalculator.getProbabilityFactor(mArea, c) != 0) {
+            if (probabilities.containsKey(c) && probabilities.get(c) != 0) {
                 candidates.add(c);
             }
         }
@@ -125,7 +129,29 @@ class DefaultShipDestroyer implements IShipDestroyer {
             newCandidate = new Coordinate(oldCandidate.x(), oldCandidate.y()+1);
         }
         mCandidates.remove(oldCandidate);
-        if (mCalculator.getProbabilityFactor(mArea, newCandidate) != 0)
+        if (mProbabilities.get(newCandidate) != 0)
         mCandidates.add(newCandidate);
+    }
+
+    private Map<Coordinate, Integer> getInitialProbabilities(Coordinate origin,
+                                                             int maxShipLenth,
+                                                             IRestrictedGameArea area,
+                                                             IHitProbabilityCalculator calculator)
+    {
+        Map<Coordinate, Integer> probabilities = new TreeMap<>();
+
+        for (int i = 1; i < maxShipLenth; ++i) {
+            Coordinate up = new Coordinate(origin.x(), origin.y()-i);
+            Coordinate down = new Coordinate(origin.x(), origin.y()+i);
+            Coordinate left = new Coordinate(origin.x()+i, origin.y());
+            Coordinate right = new Coordinate(origin.x()-i, origin.y());
+
+            probabilities.put(up, calculator.getProbabilityFactor(area, up));
+            probabilities.put(down, calculator.getProbabilityFactor(area, down));
+            probabilities.put(left, calculator.getProbabilityFactor(area, left));
+            probabilities.put(right, calculator.getProbabilityFactor(area, right));
+        }
+
+        return  probabilities;
     }
 }

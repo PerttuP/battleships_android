@@ -52,6 +52,7 @@ public class ProbabilityAI implements IBattleShipsAI {
 
         if (mMode == Mode.SeekShips) {
             target = findNewShips();
+            mDestroyer.initialize(mArea, target, mCalculator);
         }
         else if (mMode == Mode.DestroyShip) {
             target = destroyShip();
@@ -69,14 +70,9 @@ public class ProbabilityAI implements IBattleShipsAI {
         else if (mMode == Mode.SeekShips && result == HitResult.SHIP_HIT) {
             // New ship found
             mMode = Mode.DestroyShip;
-            mDestroyer.initialize(mArea, target, mCalculator);
         }
         else if (mMode == Mode.DestroyShip) {
             mDestroyer.confirmAction(result, target);
-        }
-        else
-        {
-            ;// Keep current mode.
         }
     }
 
@@ -98,18 +94,11 @@ public class ProbabilityAI implements IBattleShipsAI {
             }
         }
 
-        if (target == null) {
-            System.out.println("No possible squares left!?");
-        }
-
         return target;
     }
 
     private Coordinate destroyShip() {
         Coordinate target = mDestroyer.getNextTarget();
-        if (target == null) {
-            System.out.println("No possible squares to attack ship!?");
-        }
         return target;
     }
 }

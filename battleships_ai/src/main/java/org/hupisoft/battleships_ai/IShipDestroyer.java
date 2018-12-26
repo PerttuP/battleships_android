@@ -9,7 +9,7 @@ import org.hupisoft.battleships_core.IRestrictedGameArea;
 public interface IShipDestroyer {
 
     /**
-     * Initialize destroyer.
+     * Initialize destroyer. Call this before executing every action that may reveal a new ship.
      * @param area Game area.
      * @param origin First found ship-occupied location.
      * @param calculator Probability calculator.
@@ -23,7 +23,7 @@ public interface IShipDestroyer {
     Coordinate getNextTarget();
 
     /**
-     * Inform destroyer on hit result.
+     * Inform destroyer on hit result. Call this after decision made by destroyer has been executed.
      * @param result Hit result.
      * @param location Hit location.
      */
