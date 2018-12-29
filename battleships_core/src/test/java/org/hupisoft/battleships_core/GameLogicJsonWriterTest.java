@@ -45,8 +45,10 @@ public class GameLogicJsonWriterTest {
 
         // Compare hits
         JsonArray hitsArray = areaObj.getJsonArray(GameLogicJsonDefinitions.HITS_TAG);
+        IGameAreaLogger logger = expectedArea.getLogger();
         assertNotNull(hitsArray);
         assertEquals(expectedArea.hitCount(), hitsArray.size());
+        assertEquals(logger.numberOfPerformedActions(), hitsArray.size());
 
         for (int i = 0; i < hitsArray.size(); ++i)
         {
@@ -56,6 +58,7 @@ public class GameLogicJsonWriterTest {
             int y = hitObj.getInt(GameLogicJsonDefinitions.Y_TAG);
             Coordinate hitLocation = new Coordinate(x,y);
             assertTrue(expectedArea.getSquare(hitLocation).isHit());
+            assertEquals(logger.getAction(i).location(), hitLocation);
         }
     }
 

@@ -520,11 +520,15 @@ public class GameLogicJsonReaderTest {
         assertEquals(2, logic.getNumberOfHits(Player.PLAYER_2));
 
         IGameArea area1 = logic.getGameArea(Player.PLAYER_1);
+        IGameAreaLogger logger1 = area1.getLogger();
         assertEquals(12, area1.width());
         assertEquals(8, area1.height());
         assertEquals(2, area1.hitCount());
+        assertEquals(2, logger1.numberOfPerformedActions());
         assertTrue(area1.getSquare(new Coordinate(4,5)).isHit());
+        assertEquals(new Coordinate(4,5), logger1.getAction(0).location());
         assertTrue(area1.getSquare(new Coordinate(5,6)).isHit());
+        assertEquals(new Coordinate(5,6), logger1.getAction(1).location());
         List<IShip> ships1 = area1.getShips();
         assertEquals(1, ships1.size());
         assertEquals(3, ships1.get(0).length());
@@ -532,12 +536,17 @@ public class GameLogicJsonReaderTest {
         assertEquals(IShip.Orientation.HORIZONTAL, ships1.get(0).orientation());
 
         IGameArea area2 = logic.getGameArea(Player.PLAYER_2);
+        IGameAreaLogger logger2 = area2.getLogger();
         assertEquals(12, area2.width());
         assertEquals(8, area2.height());
         assertEquals(3, area2.hitCount());
+        assertEquals(3, logger2.numberOfPerformedActions());
         assertTrue(area2.getSquare(new Coordinate(0,1)).isHit());
+        assertEquals(new Coordinate(0,1), logger2.getAction(0).location());
         assertTrue(area2.getSquare(new Coordinate(1,2)).isHit());
+        assertEquals(new Coordinate(1,2), logger2.getAction(1).location());
         assertTrue(area2.getSquare(new Coordinate(3,4)).isHit());
+        assertEquals(new Coordinate(3,4), logger2.getAction(2).location());
         List<IShip> ships2 = area2.getShips();
         assertEquals(1, ships2.size());
         assertEquals(3, ships2.get(0).length());

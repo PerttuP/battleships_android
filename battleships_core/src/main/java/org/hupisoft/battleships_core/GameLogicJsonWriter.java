@@ -70,14 +70,11 @@ public class GameLogicJsonWriter {
     private JsonArray createHitsArray(IGameArea area)
     {
         JsonArrayBuilder builder = Json.createArrayBuilder();
+        IGameAreaLogger logger = area.getLogger();
 
-        for (int x = 0; x < area.width(); ++x) {
-            for (int y = 0; y < area.height(); ++y) {
-                Coordinate c = new Coordinate(x,y);
-                if (area.getSquare(c).isHit()) {
-                    builder.add(createCoordinateJson(c));
-                }
-            }
+        for (int i = 0; i < logger.numberOfPerformedActions(); ++i) {
+            Coordinate c = logger.getAction(i).location();
+            builder.add(createCoordinateJson(c));
         }
 
         return builder.build();
