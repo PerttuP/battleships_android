@@ -2,6 +2,7 @@ package org.hupisoft.battleships_core;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 
 import static org.mockito.Mockito.*;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class GameAreaTest {
     private final int AREA_WIDTH = 10;
     private final int AREA_HEIGHT = 8;
     private final int SHIP_COUNT = 3;
+    private IGameAreaLogger mLogger;
 
     @Before
     public void setUp() throws Exception {
@@ -40,7 +42,8 @@ public class GameAreaTest {
             mShips.add(mock(IShip.class));
         }
 
-        mArea = new GameArea(mSquares, mShips);
+        mLogger = mock(IGameAreaLogger.class);
+        mArea = new GameArea(mSquares, mShips, mLogger);
     }
 
     @Test
@@ -56,6 +59,37 @@ public class GameAreaTest {
         for (IShip expectedShip : mShips) {
             assertTrue(actualShips.contains(expectedShip));
         }
+    }
+
+    @Test
+    public void areaIsConstructedWithCorrectLogger() {
+        assertEquals(mLogger, mArea.getLogger());
+    }
+
+    @Test
+    public void loggerIsUpdatedWithCorrectActionOnHit() {
+        when(mSquares.get(3).get(4).hit()).thenReturn(HitResult.EMPTY);
+        when(mSquares.get(4).get(5).hit()).thenReturn(HitResult.SHIP_HIT);
+
+        assertEquals(HitResult.EMPTY, mArea.hit(new Coordinate(3,4)));
+        assertEquals(HitResult.SHIP_HIT, mArea.hit(new Coordinate(4,5)));
+
+        InOrder order = inOrder(mLogger);
+        order.verify(mLogger).recordAction(new Coordinate(3,4), HitResult.EMPTY);
+        order.verify(mLogger).recordAction(new Coordinate(4,5), HitResult.SHIP_HIT);
+    }
+
+    @Test
+    public void hitIsNotLoggedIfLocationIsAlreadyHit() {
+        when(mSquares.get(3).get(4).hit()).thenReturn(HitResult.ALREADY_HIT);
+        assertEquals(HitResult.ALREADY_HIT ,mArea.hit(new Coordinate(3,4)));
+        verifyNoMoreInteractions(mLogger);
+    }
+
+    @Test
+    public void hitIsNotRecordedIfLocationIsInvalid() {
+        assertNull(mArea.hit(new Coordinate(-1, 0)));
+        verifyNoMoreInteractions(mLogger);
     }
 
     @Test

@@ -25,7 +25,7 @@ class GameAreaBuilder implements IGameAreaBuilder {
     public IGameArea createInitialGameArea(int width, int height, int[] shipLengths) {
         List<List<ISquare>> squares = createSquares(width, height);
         ArrayList<IShip> ships = createShips(shipLengths);
-        IGameArea area = new GameArea(squares, ships);
+        IGameArea area = new GameArea(squares, ships, new GameAreaLogger());
         placeShips(area);
         setShipOccupations(ships, squares);
 

@@ -75,7 +75,7 @@ public class GameLogicJsonReader {
             ArrayList<IShip> ships = createShipsFromJson(shipsObj);
             GameAreaBuilder.setShipOccupations(ships, squares);
 
-            GameArea area = new GameArea(squares, ships);
+            GameArea area = new GameArea(squares, ships, new GameAreaLogger());
 
             JsonArray hitsObj = jsonObject.getJsonArray(GameLogicJsonDefinitions.HITS_TAG);
             ArrayList<Coordinate> hits = createHitCoordinatesFromJson(hitsObj);

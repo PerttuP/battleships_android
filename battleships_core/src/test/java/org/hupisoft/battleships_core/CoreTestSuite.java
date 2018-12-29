@@ -10,6 +10,7 @@ import org.junit.runners.Suite;
         ShipTest.class,
         SquareTest.class,
         RestrictedGameAreaWrapperTest.class,
+        GameAreaLoggerTest.class,
         GameAreaTest.class,
         GameAreaBuilderTest.class,
         GameLogicTest.class,

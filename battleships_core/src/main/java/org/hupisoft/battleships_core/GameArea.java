@@ -9,8 +9,9 @@ import java.util.List;
  */
 class GameArea implements IGameArea {
 
-    private List<List<ISquare>> mSquares = null;
-    private List<IShip> mShips = null;
+    private List<List<ISquare>> mSquares;
+    private List<IShip> mShips;
+    private IGameAreaLogger mLogger;
 
     /**
      * Constructor. Squares and ships are expected to be initialized previously.
@@ -18,10 +19,12 @@ class GameArea implements IGameArea {
      *                There must be at least one row and one column.
      *                All rows must have same length. All columns must have same length.
      * @param ships List of ships.
+     * @param logger Game area logger to record order of hits.
      */
-    GameArea(List<List<ISquare>> squares, List<IShip> ships) {
+    GameArea(List<List<ISquare>> squares, List<IShip> ships, IGameAreaLogger logger) {
         mSquares = squares;
         mShips = ships;
+        mLogger = logger;
     }
 
     @Override
@@ -54,6 +57,10 @@ class GameArea implements IGameArea {
         HitResult result = null;
         if (sqr != null) {
             result = sqr.hit();
+            if (result != HitResult.ALREADY_HIT) {
+                // Only record actual hits.
+                mLogger.recordAction(location, result);
+            }
         }
         return result;
     }
@@ -99,5 +106,10 @@ class GameArea implements IGameArea {
     @Override
     public IRestrictedGameArea getRestrictedInstance() {
         return new RestrictedGameAreaWrapper(this);
+    }
+
+    @Override
+    public IGameAreaLogger getLogger() {
+        return mLogger;
     }
 }

@@ -8,8 +8,8 @@ import java.util.List;
 public interface IGameArea {
 
     /**
-     * Get area widrh.
-     * @return Widrh in squares.
+     * Get area width.
+     * @return Width in squares.
      */
     int width();
 
@@ -62,4 +62,10 @@ public interface IGameArea {
      * @return Restricted game area instance matching this area.
      */
     IRestrictedGameArea getRestrictedInstance();
+
+    /**
+     * Get area logger.
+     * @return Area logger. Return null if logger is not set.
+     */
+    IGameAreaLogger getLogger();
 }
