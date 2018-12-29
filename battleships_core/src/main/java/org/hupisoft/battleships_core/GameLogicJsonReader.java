@@ -1,14 +1,11 @@
 package org.hupisoft.battleships_core;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonException;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 public class GameLogicJsonReader {
 
@@ -17,23 +14,11 @@ public class GameLogicJsonReader {
         GameLogic logic = null;
 
         try {
-            JsonReader reader = Json.createReader(new StringReader(jsonString));
-            JsonObject jsonObject = reader.readObject();
+            JSONObject jsonObject = new JSONObject(jsonString);
 
-            JsonObject gameLogicObj = jsonObject.getJsonObject(GameLogicJsonDefinitions.GAME_LOGIC_TAG);
-            if (gameLogicObj == null) {
-                throw new JsonException("Missing " + GameLogicJsonDefinitions.GAME_LOGIC_TAG + " field.");
-            }
-
-            JsonObject gameArea1Obj = gameLogicObj.getJsonObject(GameLogicJsonDefinitions.PLAYER1_GAME_AREA_TAG);
-            if (gameArea1Obj == null) {
-                throw new JsonException("Missing " + GameLogicJsonDefinitions.PLAYER1_GAME_AREA_TAG + " field.");
-            }
-
-            JsonObject gameArea2Obj = gameLogicObj.getJsonObject(GameLogicJsonDefinitions.PLAYER2_GAME_AREA_TAG);
-            if (gameArea2Obj == null) {
-                throw new JsonException("Missing " + GameLogicJsonDefinitions.PLAYER2_GAME_AREA_TAG + " field.");
-            }
+            JSONObject gameLogicObj = jsonObject.getJSONObject(GameLogicJsonDefinitions.GAME_LOGIC_TAG);
+            JSONObject gameArea1Obj = gameLogicObj.getJSONObject(GameLogicJsonDefinitions.PLAYER1_GAME_AREA_TAG);
+            JSONObject gameArea2Obj = gameLogicObj.getJSONObject(GameLogicJsonDefinitions.PLAYER2_GAME_AREA_TAG);
 
             GameLogic.PlayerGameSetup setup1 = createPlayerSetupFromJson(gameArea1Obj);
             GameLogic.PlayerGameSetup setup2 = createPlayerSetupFromJson(gameArea2Obj);
@@ -46,7 +31,7 @@ public class GameLogicJsonReader {
                 currentPlayer = Player.valueOf(playerStr);
             }
             catch (NullPointerException|ClassCastException|IllegalArgumentException e) {
-                JsonException jsonException = new JsonException("Invalid " +
+                JSONException jsonException = new JSONException("Invalid " +
                                                                 GameLogicJsonDefinitions.CURRENT_PLAYER_TAG +
                                                                 " field: " + e.getMessage());
                 throw jsonException;
@@ -54,7 +39,7 @@ public class GameLogicJsonReader {
 
             logic = new GameLogic(setup1, setup2, currentPlayer);
         }
-        catch (JsonException e)
+        catch (JSONException e)
         {
             printError(e.getMessage());
         }
@@ -64,93 +49,69 @@ public class GameLogicJsonReader {
 
 
 
-    private GameLogic.PlayerGameSetup createPlayerSetupFromJson(JsonObject jsonObject)
+    private GameLogic.PlayerGameSetup createPlayerSetupFromJson(JSONObject jsonObject)
     {
-        try {
-            Integer areaWidth = jsonObject.getInt(GameLogicJsonDefinitions.WIDTH_TAG);
-            Integer areaHeight = jsonObject.getInt(GameLogicJsonDefinitions.HEIGHT_TAG);
-            List<List<ISquare>> squares = createSquares(areaWidth, areaHeight);
+        Integer areaWidth = jsonObject.getInt(GameLogicJsonDefinitions.WIDTH_TAG);
+        Integer areaHeight = jsonObject.getInt(GameLogicJsonDefinitions.HEIGHT_TAG);
+        List<List<ISquare>> squares = createSquares(areaWidth, areaHeight);
 
-            JsonArray shipsObj = jsonObject.getJsonArray(GameLogicJsonDefinitions.SHIPS_TAG);
-            ArrayList<IShip> ships = createShipsFromJson(shipsObj);
-            GameAreaBuilder.setShipOccupations(ships, squares);
+        JSONArray shipsObj = jsonObject.getJSONArray(GameLogicJsonDefinitions.SHIPS_TAG);
+        ArrayList<IShip> ships = createShipsFromJson(shipsObj);
+        GameAreaBuilder.setShipOccupations(ships, squares);
 
-            GameArea area = new GameArea(squares, ships, new GameAreaLogger());
+        GameArea area = new GameArea(squares, ships, new GameAreaLogger());
 
-            JsonArray hitsObj = jsonObject.getJsonArray(GameLogicJsonDefinitions.HITS_TAG);
-            ArrayList<Coordinate> hits = createHitCoordinatesFromJson(hitsObj);
-            for (Coordinate c : hits) {
-                area.hit(c);
-            }
-
-            GameLogic.PlayerGameSetup setup = new GameLogic.PlayerGameSetup();
-            setup.area = area;
-            setup.numberOfHits = 0; // Is assigned based on opponents game area hits.
-            return setup;
+        JSONArray hitsObj = jsonObject.getJSONArray(GameLogicJsonDefinitions.HITS_TAG);
+        ArrayList<Coordinate> hits = createHitCoordinatesFromJson(hitsObj);
+        for (Coordinate c : hits) {
+            area.hit(c);
         }
-        catch (NullPointerException e) {
-            throw new JsonException("Invalid area dimension: " + e.getMessage());
-        }
-        catch (ClassCastException e) {
-            throw new JsonException("Invalid cast: " + e.getMessage());
-        }
+
+        GameLogic.PlayerGameSetup setup = new GameLogic.PlayerGameSetup();
+        setup.area = area;
+        setup.numberOfHits = 0; // Is assigned based on opponents game area hits.
+        return setup;
     }
 
-    private ArrayList<IShip> createShipsFromJson(JsonArray shipsObj)
+    private ArrayList<IShip> createShipsFromJson(JSONArray shipsObj)
     {
-        if (shipsObj == null) {
-            throw new JsonException("Missing " + GameLogicJsonDefinitions.SHIPS_TAG + " field.");
-        }
-
         ArrayList<IShip> ships = new ArrayList<>();
-        for (int i=0; i < shipsObj.size(); ++i) {
-            JsonObject obj = shipsObj.getJsonObject(i);
+        for (int i=0; i < shipsObj.length(); ++i) {
+            JSONObject obj = shipsObj.getJSONObject(i);
             ships.add(createShipFromJson(obj));
         }
         return ships;
     }
 
-    private IShip createShipFromJson(JsonObject obj)
+    private IShip createShipFromJson(JSONObject obj)
     {
         try {
             Integer length = obj.getInt(GameLogicJsonDefinitions.LENGTH_TAG);
             String orientationStr = obj.getString(GameLogicJsonDefinitions.ORIENTATION_TAG);
             IShip.Orientation orientation = IShip.Orientation.valueOf(orientationStr);
-            JsonObject bowObj = obj.getJsonObject(GameLogicJsonDefinitions.BOW_TAG);
+            JSONObject bowObj = obj.getJSONObject(GameLogicJsonDefinitions.BOW_TAG);
             Coordinate bowCoordinate = createCoordinateFromJson(bowObj);
             return new Ship(length, bowCoordinate, orientation);
         }
-        catch (NullPointerException | ClassCastException e) {
-            throw new JsonException("Invalid ship field: " + e.getMessage());
-        }
         catch (IllegalArgumentException e) {
-            throw new JsonException("Invalid ship orientation: " + e.getMessage());
+            throw new JSONException("Invalid ship orientation: " + e.getMessage());
         }
     }
 
-    private ArrayList<Coordinate> createHitCoordinatesFromJson(JsonArray hitsObj)
+    private ArrayList<Coordinate> createHitCoordinatesFromJson(JSONArray hitsObj)
     {
-        if (hitsObj == null) {
-            throw new JsonException("Missing " + GameLogicJsonDefinitions.HITS_TAG + " field.");
-        }
-
         ArrayList<Coordinate> hits = new ArrayList<>();
-        for (int i = 0; i < hitsObj.size(); ++i) {
-            hits.add(createCoordinateFromJson(hitsObj.getJsonObject(i)));
+        for (int i = 0; i < hitsObj.length(); ++i) {
+            hits.add(createCoordinateFromJson(hitsObj.getJSONObject(i)));
         }
         return hits;
     }
 
-    private Coordinate createCoordinateFromJson(JsonObject obj)
+    private Coordinate createCoordinateFromJson(JSONObject obj)
     {
-        try {
-            Integer x = obj.getInt(GameLogicJsonDefinitions.X_TAG);
-            Integer y = obj.getInt(GameLogicJsonDefinitions.Y_TAG);
-            return new Coordinate(x, y);
-        }
-        catch (NullPointerException | ClassCastException e) {
-            throw new JsonException("Invalid coordinate field: " + e.getMessage());
-        }
+        Integer x = obj.getInt(GameLogicJsonDefinitions.X_TAG);
+        Integer y = obj.getInt(GameLogicJsonDefinitions.Y_TAG);
+        return new Coordinate(x, y);
     }
 
     private List<List<ISquare>> createSquares(int width, int height)

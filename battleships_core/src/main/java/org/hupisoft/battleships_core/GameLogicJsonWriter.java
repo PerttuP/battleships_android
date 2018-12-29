@@ -3,11 +3,8 @@ package org.hupisoft.battleships_core;
 import java.io.StringWriter;
 import java.util.List;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonWriter;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 /**
  * Creates JSON string representing current state of the game.
@@ -22,69 +19,60 @@ public class GameLogicJsonWriter {
      */
     public String writeJsonString(IGameLogic logic)
     {
-        JsonObject logicObj = Json.createObjectBuilder()
-                .add(GameLogicJsonDefinitions.CURRENT_PLAYER_TAG, logic.getCurrentPlayer().toString())
-                .add(GameLogicJsonDefinitions.PLAYER1_GAME_AREA_TAG, createAreaObject(logic.getGameArea(Player.PLAYER_1)))
-                .add(GameLogicJsonDefinitions.PLAYER2_GAME_AREA_TAG, createAreaObject(logic.getGameArea(Player.PLAYER_2)))
-                .build();
+        JSONObject logicObj = new JSONObject();
+        logicObj.put(GameLogicJsonDefinitions.CURRENT_PLAYER_TAG, logic.getCurrentPlayer().toString());
+        logicObj.put(GameLogicJsonDefinitions.PLAYER1_GAME_AREA_TAG, createAreaObject(logic.getGameArea(Player.PLAYER_1)));
+        logicObj.put(GameLogicJsonDefinitions.PLAYER2_GAME_AREA_TAG, createAreaObject(logic.getGameArea(Player.PLAYER_2)));
 
-        JsonObject root = Json.createObjectBuilder()
-                .add(GameLogicJsonDefinitions.GAME_LOGIC_TAG, logicObj)
-                .build();
-
-        StringWriter stringWriter = new StringWriter();
-        JsonWriter jsonWriter = Json.createWriter(stringWriter);
-        jsonWriter.writeObject(root);
-        jsonWriter.close();
-        return stringWriter.getBuffer().toString();
+        JSONObject root = new JSONObject();
+        root.put(GameLogicJsonDefinitions.GAME_LOGIC_TAG, logicObj);
+        return root.toString();
     }
 
-    private JsonObject createAreaObject(IGameArea area)
+    private JSONObject createAreaObject(IGameArea area)
     {
-        return Json.createObjectBuilder()
-                .add(GameLogicJsonDefinitions.WIDTH_TAG, area.width())
-                .add(GameLogicJsonDefinitions.HEIGHT_TAG, area.height())
-                .add(GameLogicJsonDefinitions.SHIPS_TAG, createShipsArray(area.getShips()))
-                .add(GameLogicJsonDefinitions.HITS_TAG, createHitsArray(area))
-                .build();
+        JSONObject obj = new JSONObject();
+        obj.put(GameLogicJsonDefinitions.WIDTH_TAG, area.width());
+        obj.put(GameLogicJsonDefinitions.HEIGHT_TAG, area.height());
+        obj.put(GameLogicJsonDefinitions.SHIPS_TAG, createShipsArray(area.getShips()));
+        obj.put(GameLogicJsonDefinitions.HITS_TAG, createHitsArray(area));
+        return obj;
     }
 
-    private JsonArray createShipsArray(List<IShip> ships)
+    private JSONArray createShipsArray(List<IShip> ships)
     {
-        JsonArrayBuilder builder = Json.createArrayBuilder();
+        JSONArray array = new JSONArray();
         for (IShip ship : ships) {
-            builder.add(createShipJson(ship));
+            array.put(createShipJson(ship));
         }
-        return builder.build();
+        return array;
     }
 
-    private JsonObject createShipJson(IShip ship)
+    private JSONObject createShipJson(IShip ship)
     {
-        return Json.createObjectBuilder()
-                .add(GameLogicJsonDefinitions.LENGTH_TAG, ship.length())
-                .add(GameLogicJsonDefinitions.ORIENTATION_TAG, ship.orientation().toString())
-                .add(GameLogicJsonDefinitions.BOW_TAG, createCoordinateJson(ship.getBowCoordinates()))
-                .build();
+        JSONObject obj = new JSONObject();
+        obj.put(GameLogicJsonDefinitions.LENGTH_TAG, ship.length());
+        obj.put(GameLogicJsonDefinitions.ORIENTATION_TAG, ship.orientation().toString());
+        obj.put(GameLogicJsonDefinitions.BOW_TAG, createCoordinateJson(ship.getBowCoordinates()));
+        return obj;
     }
 
-    private JsonArray createHitsArray(IGameArea area)
+    private JSONArray createHitsArray(IGameArea area)
     {
-        JsonArrayBuilder builder = Json.createArrayBuilder();
+        JSONArray array = new JSONArray();
         IGameAreaLogger logger = area.getLogger();
-
         for (int i = 0; i < logger.numberOfPerformedActions(); ++i) {
             Coordinate c = logger.getAction(i).location();
-            builder.add(createCoordinateJson(c));
+            array.put(createCoordinateJson(c));
         }
-
-        return builder.build();
+        return array;
     }
 
-    private JsonObject createCoordinateJson(Coordinate coordinate)
+    private JSONObject createCoordinateJson(Coordinate coordinate)
     {
-        return Json.createObjectBuilder()
-                .add(GameLogicJsonDefinitions.X_TAG, coordinate.x())
-                .add(GameLogicJsonDefinitions.Y_TAG, coordinate.y())
-                .build();
+        JSONObject obj = new JSONObject();
+        obj.put(GameLogicJsonDefinitions.X_TAG, coordinate.x());
+        obj.put(GameLogicJsonDefinitions.Y_TAG, coordinate.y());
+        return obj;
     }
 }

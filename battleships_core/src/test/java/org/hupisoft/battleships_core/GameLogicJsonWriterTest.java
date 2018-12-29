@@ -5,10 +5,8 @@ import org.junit.Test;
 import java.io.StringReader;
 import java.util.List;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 import static org.junit.Assert.*;
 
@@ -17,7 +15,7 @@ import static org.junit.Assert.*;
  */
 public class GameLogicJsonWriterTest {
 
-    private void compareAreas(JsonObject areaObj, IGameArea expectedArea)
+    private void compareAreas(JSONObject areaObj, IGameArea expectedArea)
     {
         assertNotNull(areaObj);
         assertEquals(expectedArea.width(), areaObj.getInt(GameLogicJsonDefinitions.WIDTH_TAG));
@@ -25,18 +23,18 @@ public class GameLogicJsonWriterTest {
 
         // Compare ships
         List<IShip> expectedShips = expectedArea.getShips();
-        JsonArray shipsArray = areaObj.getJsonArray(GameLogicJsonDefinitions.SHIPS_TAG);
-        assertEquals(expectedShips.size(), shipsArray.size());
+        JSONArray shipsArray = areaObj.getJSONArray(GameLogicJsonDefinitions.SHIPS_TAG);
+        assertEquals(expectedShips.size(), shipsArray.length());
 
         for (int i = 0; i < expectedShips.size(); ++i)
         {
-            JsonObject shipObj = shipsArray.getJsonObject(i);
+            JSONObject shipObj = shipsArray.getJSONObject(i);
             assertNotNull(shipObj);
             assertEquals(expectedShips.get(i).length(), shipObj.getInt(GameLogicJsonDefinitions.LENGTH_TAG));
             IShip.Orientation orientation = IShip.Orientation.valueOf(shipObj.getString(GameLogicJsonDefinitions.ORIENTATION_TAG));
             assertEquals(expectedShips.get(i).orientation(), orientation);
 
-            JsonObject bowObj = shipObj.getJsonObject(GameLogicJsonDefinitions.BOW_TAG);
+            JSONObject bowObj = shipObj.getJSONObject(GameLogicJsonDefinitions.BOW_TAG);
             assertNotNull(bowObj);
             int x = bowObj.getInt(GameLogicJsonDefinitions.X_TAG);
             int y = bowObj.getInt(GameLogicJsonDefinitions.Y_TAG);
@@ -44,15 +42,15 @@ public class GameLogicJsonWriterTest {
         }
 
         // Compare hits
-        JsonArray hitsArray = areaObj.getJsonArray(GameLogicJsonDefinitions.HITS_TAG);
+        JSONArray hitsArray = areaObj.getJSONArray(GameLogicJsonDefinitions.HITS_TAG);
         IGameAreaLogger logger = expectedArea.getLogger();
         assertNotNull(hitsArray);
-        assertEquals(expectedArea.hitCount(), hitsArray.size());
-        assertEquals(logger.numberOfPerformedActions(), hitsArray.size());
+        assertEquals(expectedArea.hitCount(), hitsArray.length());
+        assertEquals(logger.numberOfPerformedActions(), hitsArray.length());
 
-        for (int i = 0; i < hitsArray.size(); ++i)
+        for (int i = 0; i < hitsArray.length(); ++i)
         {
-            JsonObject hitObj = hitsArray.getJsonObject(i);
+            JSONObject hitObj = hitsArray.getJSONObject(i);
             assertNotNull(hitObj);
             int x = hitObj.getInt(GameLogicJsonDefinitions.X_TAG);
             int y = hitObj.getInt(GameLogicJsonDefinitions.Y_TAG);
@@ -69,18 +67,17 @@ public class GameLogicJsonWriterTest {
         String jsonStr = new GameLogicJsonWriter().writeJsonString(logic);
         assertNotNull(jsonStr);
 
-        JsonReader reader = Json.createReader(new StringReader(jsonStr));
-        JsonObject root = reader.readObject();
+        JSONObject root = new JSONObject(jsonStr);
 
-        JsonObject gameLogicObj = root.getJsonObject(GameLogicJsonDefinitions.GAME_LOGIC_TAG);
+        JSONObject gameLogicObj = root.getJSONObject(GameLogicJsonDefinitions.GAME_LOGIC_TAG);
         assertNotNull(gameLogicObj);
 
         Player currentPlayer = Player.valueOf(gameLogicObj.getString(GameLogicJsonDefinitions.CURRENT_PLAYER_TAG));
         assertEquals(logic.getCurrentPlayer(), currentPlayer);
 
-        JsonObject gameAreaObj1 = gameLogicObj.getJsonObject(GameLogicJsonDefinitions.PLAYER1_GAME_AREA_TAG);
+        JSONObject gameAreaObj1 = gameLogicObj.getJSONObject(GameLogicJsonDefinitions.PLAYER1_GAME_AREA_TAG);
         compareAreas(gameAreaObj1, logic.getGameArea(Player.PLAYER_1));
-        JsonObject gameAreaObj2 = gameLogicObj.getJsonObject(GameLogicJsonDefinitions.PLAYER2_GAME_AREA_TAG);
+        JSONObject gameAreaObj2 = gameLogicObj.getJSONObject(GameLogicJsonDefinitions.PLAYER2_GAME_AREA_TAG);
         compareAreas(gameAreaObj2, logic.getGameArea(Player.PLAYER_2));
     }
 
@@ -96,18 +93,17 @@ public class GameLogicJsonWriterTest {
         String jsonStr = new GameLogicJsonWriter().writeJsonString(logic);
         assertNotNull(jsonStr);
 
-        JsonReader reader = Json.createReader(new StringReader(jsonStr));
-        JsonObject root = reader.readObject();
+        JSONObject root = new JSONObject(jsonStr);
 
-        JsonObject gameLogicObj = root.getJsonObject(GameLogicJsonDefinitions.GAME_LOGIC_TAG);
+        JSONObject gameLogicObj = root.getJSONObject(GameLogicJsonDefinitions.GAME_LOGIC_TAG);
         assertNotNull(gameLogicObj);
 
         Player currentPlayer = Player.valueOf(gameLogicObj.getString(GameLogicJsonDefinitions.CURRENT_PLAYER_TAG));
         assertEquals(logic.getCurrentPlayer(), currentPlayer);
 
-        JsonObject gameAreaObj1 = gameLogicObj.getJsonObject(GameLogicJsonDefinitions.PLAYER1_GAME_AREA_TAG);
+        JSONObject gameAreaObj1 = gameLogicObj.getJSONObject(GameLogicJsonDefinitions.PLAYER1_GAME_AREA_TAG);
         compareAreas(gameAreaObj1, logic.getGameArea(Player.PLAYER_1));
-        JsonObject gameAreaObj2 = gameLogicObj.getJsonObject(GameLogicJsonDefinitions.PLAYER2_GAME_AREA_TAG);
+        JSONObject gameAreaObj2 = gameLogicObj.getJSONObject(GameLogicJsonDefinitions.PLAYER2_GAME_AREA_TAG);
         compareAreas(gameAreaObj2, logic.getGameArea(Player.PLAYER_2));
     }
 

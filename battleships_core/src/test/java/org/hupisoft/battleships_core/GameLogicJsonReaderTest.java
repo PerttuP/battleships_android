@@ -164,7 +164,7 @@ public class GameLogicJsonReaderTest {
     {
         String jsonStr =
                 "{\"gameLogic\": {\"currentPlayer\": \"PLAYER_1\", " +
-                        "\"player1Area\": {\"width\":12, \"height\":\"8\", " +
+                        "\"player1Area\": {\"width\":12, \"height\":\"asd\", " +
                         "\"ships\":[{\"length\":3, \"bowCoordinates\":{\"x\":1, \"y\":2}, \"orientation\": \"HORIZONTAL\"}]," +
                         "\"hits\": []}, " +
                         "\"player2Area\": {\"width\": 12, \"height\":8, " +
@@ -232,7 +232,7 @@ public class GameLogicJsonReaderTest {
         String jsonStr =
                 "{\"gameLogic\": {\"currentPlayer\": \"PLAYER_1\", " +
                         "\"player1Area\": {\"width\":12, \"height\":8, " +
-                        "\"ships\":[{\"length\":\"3\", \"bowCoordinates\":{\"x\":1, \"y\":2}, \"orientation\": \"HORIZONTAL\"}]," +
+                        "\"ships\":[{\"length\":\"asd\", \"bowCoordinates\":{\"x\":1, \"y\":2}, \"orientation\": \"HORIZONTAL\"}]," +
                         "\"hits\": []}, " +
                         "\"player2Area\": {\"width\": 12, \"height\":8, " +
                         "\"ships\":[{\"length\":3, \"bowCoordinates\":{\"x\":3, \"y\":4}, \"orientation\": \"VERTICAL\"}]," +
@@ -371,7 +371,7 @@ public class GameLogicJsonReaderTest {
                         "\"ships\":[{\"length\":3, \"bowCoordinates\":{\"x\":1, \"y\":2}, \"orientation\": \"HORIZONTAL\"}]," +
                         "\"hits\": []}, " +
                         "\"player2Area\": {\"width\": 12, \"height\":8, " +
-                        "\"ships\":[{\"length\":3, \"bowCoordinates\":{\"x\":\"0\", \"y\":3}, \"orientation\": \"VERTICAL\"}]," +
+                        "\"ships\":[{\"length\":3, \"bowCoordinates\":{\"x\":\"asd\", \"y\":3}, \"orientation\": \"VERTICAL\"}]," +
                         "\"hits\": []}" +
                         "}}";
         GameLogicJsonReader reader = new GameLogicJsonReader();
@@ -388,7 +388,7 @@ public class GameLogicJsonReaderTest {
                         "\"ships\":[{\"length\":3, \"bowCoordinates\":{\"x\":1, \"y\":2}, \"orientation\": \"HORIZONTAL\"}]," +
                         "\"hits\": []}, " +
                         "\"player2Area\": {\"width\": 12, \"height\":8, " +
-                        "\"ships\":[{\"length\":3, \"bowCoordinates\":{\"x\":0, \"y\":\"3\"}, \"orientation\": \"VERTICAL\"}]," +
+                        "\"ships\":[{\"length\":3, \"bowCoordinates\":{\"x\":0, \"y\":\"asd\"}, \"orientation\": \"VERTICAL\"}]," +
                         "\"hits\": []}" +
                         "}}";
         GameLogicJsonReader reader = new GameLogicJsonReader();
@@ -474,7 +474,7 @@ public class GameLogicJsonReaderTest {
                         "\"hits\": []}, " +
                         "\"player2Area\": {\"width\": 12, \"height\":8, " +
                         "\"ships\":[{\"length\":3, \"bowCoordinates\":{\"x\":3, \"y\":4}, \"orientation\": \"VERTICAL\"}], " +
-                        "\"hits\":[{\"x\":\"1\", \"y\":4}]}" +
+                        "\"hits\":[{\"x\":\"asd\", \"y\":4}]}" +
                         "}}";
         GameLogicJsonReader reader = new GameLogicJsonReader();
         IGameLogic logic = reader.readJsonString(jsonStr);
@@ -491,7 +491,7 @@ public class GameLogicJsonReaderTest {
                         "\"hits\": []}, " +
                         "\"player2Area\": {\"width\": 12, \"height\":8, " +
                         "\"ships\":[{\"length\":3, \"bowCoordinates\":{\"x\":3, \"y\":4}, \"orientation\": \"VERTICAL\"}], " +
-                        "\"hits\":[{\"x\":1, \"y\":\"4\"}]}" +
+                        "\"hits\":[{\"x\":1, \"y\":\"asd\"}]}" +
                         "}}";
         GameLogicJsonReader reader = new GameLogicJsonReader();
         IGameLogic logic = reader.readJsonString(jsonStr);
