@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Battleships</string>
     <string name="menu_title" translatable="true">Menu</string>
+    <string name="menu_continue" translatable="true">Continue</string>
     <string name="menu_newVersusGame" translatable="true">New Versus Game</string>
     <string name="menu_newSoloGame" translatable="true">New Single Player Game</string>
 

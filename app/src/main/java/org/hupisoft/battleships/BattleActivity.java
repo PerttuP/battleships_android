@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import org.hupisoft.battleships.views.GameAreaView;
-import org.hupisoft.battleships_core.GameLogicBuilder;
-import org.hupisoft.battleships_core.IGameLogic;
-import org.hupisoft.battleships_core.Player;
 
 public class BattleActivity extends AppCompatActivity {
 
@@ -16,11 +13,9 @@ public class BattleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battle);
 
-        GameLogicBuilder builder = new GameLogicBuilder();
-        IGameLogic logic = builder.createNewGame(12,8, new int[]{2,3,5});
-
+        IGameManager manager = (IGameManager)getApplicationContext();
         GameAreaView areaView = new GameAreaView(getApplicationContext());
-        areaView.setArea(logic.getGameArea(Player.PLAYER_1));
+        areaView.setArea(manager.currentGameLogic().getGameArea(manager.currentGameLogic().getCurrentPlayer()));
         ViewGroup grp = findViewById(R.id.testLayout);
         grp.addView(areaView);
         //layout.addView();
