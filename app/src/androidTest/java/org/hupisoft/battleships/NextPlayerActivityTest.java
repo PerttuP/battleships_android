@@ -8,6 +8,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.rule.ActivityTestRule;
 import org.hupisoft.battleships_core.Player;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,10 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCom
 public class NextPlayerActivityTest {
 
     @Rule
+    public ActivityTestRule<MenuActivity> mMainActivityRule =
+            new ActivityTestRule<>(MenuActivity.class);
+
+    @Rule
     public ActivityTestRule<NextPlayerActivity> mActivityRule =
             new ActivityTestRule<>(NextPlayerActivity.class, true, false);
 
@@ -44,6 +49,13 @@ public class NextPlayerActivityTest {
 
     private void checkCommonElements() {
         onView(withId(R.id.nextPlayerBtn)).check(matches(withText(R.string.continueText)));
+    }
+
+    @Before
+    public void setUp() {
+        // Set current game to prevent launched BattleActivities from crashing.
+        IGameManager manager = (IGameManager)mMainActivityRule.getActivity().getApplicationContext();
+        manager.newVersusGame();
     }
 
     @Test
