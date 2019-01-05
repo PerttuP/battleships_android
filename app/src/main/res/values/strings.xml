@@ -14,4 +14,8 @@
     <string name="battle_player1" translatable="true">Player 1</string>
     <string name="battle_player2" translatable="true">Player 2</string>
     <string name="battle_numberOfHits" translatable="true">Number of hits:</string>
+
+    <string name="confirmNewGame_message" translatable="true">Game is still in progress. Overwrite with new game? Previous game will be lost.</string>
+    <string name="confirmNewGame_confirm" translatable="true">Yes</string>
+    <string name="confirmNewGame_cancel" translatable="true">Cancel</string>
 </resources>
