@@ -2,6 +2,8 @@ package org.hupisoft.battleships_ai;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,6 +16,14 @@ public class BattleShipAIFactoryTest {
     {
         assertEquals("RandomAI", BattleShipAIFactory.RANDOM_AI);
         assertEquals("ProbabilityAI", BattleShipAIFactory.PROBABILITY_AI);
+    }
+
+    @Test
+    public void getListOfAllAiImplementations() {
+        BattleShipAIFactory factory = new BattleShipAIFactory();
+        List<String> supported = factory.supportedAiTypes();
+        assertTrue(supported.contains(BattleShipAIFactory.RANDOM_AI));
+        assertTrue(supported.contains(BattleShipAIFactory.PROBABILITY_AI));
     }
 
     @Test

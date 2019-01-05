@@ -20,6 +20,11 @@ class RandomAI implements IBattleShipsAI {
     }
 
     @Override
+    public String id() {
+        return "RandomAI";
+    }
+
+    @Override
     public void setTargetGameArea(IRestrictedGameArea targetArea) {
         mArea = targetArea;
     }

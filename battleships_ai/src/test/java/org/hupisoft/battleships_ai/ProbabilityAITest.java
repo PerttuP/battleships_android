@@ -3,6 +3,7 @@ package org.hupisoft.battleships_ai;
 import org.hupisoft.battleships_core.Coordinate;
 import org.hupisoft.battleships_core.GameLogicBuilder;
 import org.hupisoft.battleships_core.HitResult;
+import org.hupisoft.battleships_core.IGameArea;
 import org.hupisoft.battleships_core.IGameLogic;
 import org.hupisoft.battleships_core.Player;
 import org.junit.Test;
@@ -10,6 +11,15 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ProbabilityAITest {
+
+    @Test
+    public void verifyAiId() {
+        BattleShipAIFactory factory = new BattleShipAIFactory();
+        IBattleShipsAI ai = factory.createAI(BattleShipAIFactory.PROBABILITY_AI);
+        ProbabilityAI pai = (ProbabilityAI)ai;
+        assertNotNull(pai);
+        assertEquals(BattleShipAIFactory.PROBABILITY_AI, ai.id());
+    }
 
     @Test
     public void ProbabilityAICanWin() {

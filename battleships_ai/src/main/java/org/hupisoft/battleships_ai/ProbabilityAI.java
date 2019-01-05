@@ -42,6 +42,11 @@ public class ProbabilityAI implements IBattleShipsAI {
     }
 
     @Override
+    public String id() {
+        return "ProbabilityAI";
+    }
+
+    @Override
     public void setTargetGameArea(IRestrictedGameArea targetArea) {
         mArea = targetArea;
     }

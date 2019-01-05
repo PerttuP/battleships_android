@@ -21,6 +21,12 @@ import static org.mockito.Mockito.*;
 public class RandomAITest {
 
     @Test
+    public void getId() {
+        IBattleShipsAI ai = new BattleShipAIFactory().createAI(BattleShipAIFactory.RANDOM_AI);
+        assertEquals(BattleShipAIFactory.RANDOM_AI, ai.id());
+    }
+
+    @Test
     public void AIAlwaysSelectsRandomFromNonHitLocations()
     {
         // Set up non hit locations.

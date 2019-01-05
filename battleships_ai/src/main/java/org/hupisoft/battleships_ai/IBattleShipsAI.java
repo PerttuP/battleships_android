@@ -10,6 +10,12 @@ import org.hupisoft.battleships_core.IRestrictedGameArea;
 public interface IBattleShipsAI {
 
     /**
+     * Get AI type id string.
+     * @return AI type id string.
+     */
+    String id();
+
+    /**
      * Set target game area. This should be the AI's opponents game area.
      * Calling the method will reset AI's possible caches, forgetting the previous game.
      * @param targetArea AI's opponent's game area.
