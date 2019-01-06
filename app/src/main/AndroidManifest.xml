@@ -22,6 +22,10 @@
             android:name=".NextPlayerActivity"
             android:noHistory="true">
         </activity>
+        <activity
+            android:name=".NewSinglePlayerGameMenuActivity"
+            android:noHistory="true">
+        </activity>
     </application>
 
 </manifest>

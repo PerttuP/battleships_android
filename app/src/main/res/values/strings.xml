@@ -18,4 +18,8 @@
     <string name="confirmNewGame_message" translatable="true">Game is still in progress. Overwrite with new game? Previous game will be lost.</string>
     <string name="confirmNewGame_confirm" translatable="true">Yes</string>
     <string name="confirmNewGame_cancel" translatable="true">Cancel</string>
+
+    <string name="newSinglePlayerGameMenu_easy" translatable="true">Easy</string>
+    <string name="newSinglePlayerGameMenu_difficult" translatable="true">Difficult</string>
+    <string name="newSinglePlayerGameMenu_title" translatable="true">Select difficulty level</string>
 </resources>

@@ -97,6 +97,8 @@ public class MenuActivity
 
     private void newSinglePlayerGame() {
         System.out.println("New single player game.");
+        Intent intent = new Intent(getApplicationContext(), NewSinglePlayerGameMenuActivity.class);
+        startActivity(intent);
     }
 
     private void showConfirmNewGameDialog() {
