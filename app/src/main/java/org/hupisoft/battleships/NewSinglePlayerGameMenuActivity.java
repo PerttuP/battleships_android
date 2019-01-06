@@ -29,7 +29,6 @@ public class NewSinglePlayerGameMenuActivity extends AppCompatActivity {
                 createSinglePlayerGame(aiId);
             }
         });
-
     }
 
     private void createSinglePlayerGame(String aiId) {
