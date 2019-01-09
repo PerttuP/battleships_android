@@ -7,8 +7,9 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.rule.ActivityTestRule;
+
+import org.hupisoft.battleships_core.Coordinate;
 import org.hupisoft.battleships_core.Player;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,62 +29,41 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCom
 public class NextPlayerActivityTest {
 
     @Rule
-    public ActivityTestRule<MenuActivity> mMainActivityRule =
-            new ActivityTestRule<>(MenuActivity.class);
+    public IntentsTestRule<NextPlayerActivity> mActivityRule =
+            new IntentsTestRule<>(NextPlayerActivity.class, true, false);
 
-    @Rule
-    public ActivityTestRule<NextPlayerActivity> mActivityRule =
-            new ActivityTestRule<>(NextPlayerActivity.class, true, false);
-
-    @Rule
-    public IntentsTestRule<NextPlayerActivity> intentsRule = new IntentsTestRule<>(NextPlayerActivity.class);
-
-    private void launchActivity(Player playerInTurn) {
-        Context ctx = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        Intent intent = new Intent(ctx, NextPlayerActivity.class);
-        if (playerInTurn != null) {
-            intent.putExtra(NextPlayerActivity.EXTRA_PLAYER_IN_TURN, playerInTurn);
+    private void startActivity(Player playerInTurn) {
+        IGameManager manager = (IGameManager)InstrumentationRegistry.getTargetContext().getApplicationContext();
+        manager.newVersusGame();
+        if (playerInTurn != Player.PLAYER_1) {
+            manager.currentGameLogic().playerAction(new Coordinate(1,2));
         }
-        mActivityRule.launchActivity(intent);
+
+        mActivityRule.launchActivity(new Intent(InstrumentationRegistry.getTargetContext().getApplicationContext(), NextPlayerActivity.class));
     }
 
     private void checkCommonElements() {
         onView(withId(R.id.nextPlayerBtn)).check(matches(withText(R.string.continueText)));
     }
 
-    @Before
-    public void setUp() {
-        // Set current game to prevent launched BattleActivities from crashing.
-        IGameManager manager = (IGameManager)mMainActivityRule.getActivity().getApplicationContext();
-        manager.newVersusGame();
-    }
-
     @Test
     public void showInstructionsForPlayer1() {
-        launchActivity(Player.PLAYER_1);
+        startActivity(Player.PLAYER_1);
         checkCommonElements();
         onView(withId(R.id.nextPlayerInfoTextView)).check(matches(withText(R.string.nextPlayer_instructionsPlayer1)));
     }
 
     @Test
     public void showInstructionsForPlayer2() {
-        launchActivity(Player.PLAYER_2);
+        startActivity(Player.PLAYER_2);
         checkCommonElements();
         onView(withId(R.id.nextPlayerInfoTextView)).check(matches(withText(R.string.nextPlayer_instructionsPlayer2)));
     }
 
     @Test
-    public void showPlayer1InstructionsByDefault() {
-        launchActivity(null);
-        checkCommonElements();
-        onView(withId(R.id.nextPlayerInfoTextView)).check(matches(withText(R.string.nextPlayer_instructionsPlayer1)));
-    }
-
-    @Test
     public void clickingContinueStartsBattleActivity() {
-        launchActivity(Player.PLAYER_1);
+        startActivity(Player.PLAYER_1);
         checkCommonElements();
-
         onView(withId(R.id.nextPlayerBtn)).perform(click());
         intended(hasComponent(BattleActivity.class.getName()));
     }

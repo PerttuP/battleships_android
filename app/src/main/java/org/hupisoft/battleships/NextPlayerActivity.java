@@ -13,13 +13,10 @@ import org.hupisoft.battleships_core.Player;
  */
 public class NextPlayerActivity extends AppCompatActivity {
 
-    public static final String EXTRA_PLAYER_IN_TURN = "org.hupisoft.battleships.playerInTurn";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next_player);
-        setInstructionText();
 
         Button nextPlayerBtn = findViewById(R.id.nextPlayerBtn);
         nextPlayerBtn.setOnClickListener(new View.OnClickListener() {
@@ -32,8 +29,15 @@ public class NextPlayerActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setInstructionText();
+    }
+
     private void setInstructionText() {
-        Player playerInTurn = (Player)getIntent().getSerializableExtra(NextPlayerActivity.EXTRA_PLAYER_IN_TURN);
+        IGameManager manager = (IGameManager)getApplicationContext();
+        Player playerInTurn = manager.currentGameLogic().getCurrentPlayer();
 
         TextView text = findViewById(R.id.nextPlayerInfoTextView);
         if (playerInTurn == Player.PLAYER_2) {

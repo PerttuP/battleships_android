@@ -47,7 +47,6 @@ public class MenuActivity
             public void onClick(View view) {
                 if (mManager.currentGameType() == GameManager.GameType.VersusGame) {
                     Intent intent = new Intent(getApplicationContext(), NextPlayerActivity.class);
-                    intent.putExtra(NextPlayerActivity.EXTRA_PLAYER_IN_TURN, mManager.currentGameLogic().getCurrentPlayer());
                     startActivity(intent);
                 }
                 else {
@@ -91,7 +90,6 @@ public class MenuActivity
         System.out.println("New versus game.");
         mManager.newVersusGame();
         Intent intent = new Intent(getApplicationContext(), NextPlayerActivity.class);
-        intent.putExtra(NextPlayerActivity.EXTRA_PLAYER_IN_TURN, mManager.currentGameLogic().getCurrentPlayer());
         startActivity(intent);
     }
 
