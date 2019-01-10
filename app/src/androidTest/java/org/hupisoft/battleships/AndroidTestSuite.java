@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
     NextPlayerActivityTest.class,
-    NewSinglePlayerGameMenuActivityTest.class
+    NewSinglePlayerGameMenuActivityTest.class,
+    MenuActivityTest.class
 })
 
 /**

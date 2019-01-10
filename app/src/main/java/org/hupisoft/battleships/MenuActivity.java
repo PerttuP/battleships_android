@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Main menu activity. Launcher activity for the application.
+ */
 public class MenuActivity
         extends AppCompatActivity
         implements NewGameConfirmDialog.INewGameConfirmListener {
@@ -18,20 +21,16 @@ public class MenuActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         mManager = (IGameManager)getApplicationContext();
+        setNewGameButtonListener(R.id.newVersusGameBtn, IGameManager.GameType.VersusGame);
+        setNewGameButtonListener(R.id.newSoloGameBtn, IGameManager.GameType.SinglePlayerGame);
+    }
 
-        Button newVersusGameBtn = findViewById(R.id.newVersusGameBtn);
-        newVersusGameBtn.setOnClickListener(new View.OnClickListener() {
+    private void setNewGameButtonListener(int buttonId, final IGameManager.GameType gameType) {
+        Button btn = findViewById(buttonId);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onNewGameRequested(IGameManager.GameType.VersusGame);
-            }
-        });
-
-        Button newSinglePlayerGameBtn = findViewById(R.id.newSoloGameBtn);
-        newSinglePlayerGameBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onNewGameRequested(IGameManager.GameType.SinglePlayerGame);
+                onNewGameRequested(gameType);
             }
         });
     }
@@ -70,7 +69,6 @@ public class MenuActivity
 
     @Override
     public void onNewGameCancelled() {
-        System.out.println("New game cancelled.");
         mNewGameRequest = null;
     }
 
@@ -87,14 +85,12 @@ public class MenuActivity
     }
 
     private void newVersusGame() {
-        System.out.println("New versus game.");
         mManager.newVersusGame();
         Intent intent = new Intent(getApplicationContext(), NextPlayerActivity.class);
         startActivity(intent);
     }
 
     private void newSinglePlayerGame() {
-        System.out.println("New single player game.");
         Intent intent = new Intent(getApplicationContext(), NewSinglePlayerGameMenuActivity.class);
         startActivity(intent);
     }
