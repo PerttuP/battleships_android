@@ -6,7 +6,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-        GameManagerTest.class
+        GameManagerTest.class,
+        BattleViewModelTest.class
 })
 
 /**

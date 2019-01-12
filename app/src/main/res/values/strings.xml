@@ -22,4 +22,7 @@
     <string name="newSinglePlayerGameMenu_easy" translatable="true">Easy</string>
     <string name="newSinglePlayerGameMenu_difficult" translatable="true">Difficult</string>
     <string name="newSinglePlayerGameMenu_title" translatable="true">Select difficulty level</string>
+
+    <string name="battleView_showEnemyArea" translatable="true">Show enemy area</string>
+    <string name="battleView_showFriendlyArea" translatable="true">Show friendly area</string>
 </resources>

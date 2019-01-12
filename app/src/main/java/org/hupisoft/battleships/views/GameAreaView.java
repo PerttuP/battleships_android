@@ -47,7 +47,7 @@ public class GameAreaView extends GridLayout {
         setClickable(false);
     }
 
-    public void setArea(IGameArea area) {
+    public void setArea(IGameArea area, boolean showHiddenShips) {
         removeAllViews();
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -60,7 +60,7 @@ public class GameAreaView extends GridLayout {
         }
 
         setCoordinates(area.width(), area.height());
-        setSquares(area);
+        setSquares(area, showHiddenShips);
     }
 
     private void setCoordinates(int width, int height) {
@@ -103,12 +103,12 @@ public class GameAreaView extends GridLayout {
         return view;
     }
 
-    private void setSquares(IGameArea area) {
+    private void setSquares(IGameArea area, boolean showHiddenShips) {
         for (int y = 0; y < area.height(); ++y) {
             for (int x = 0; x < area.width(); ++x) {
                 Coordinate c = new Coordinate(x,y);
                 ISquare sqr = area.getSquare(c);
-                GameAreaSquareView square = new GameAreaSquareView(getContext(), sqr, true);
+                GameAreaSquareView square = new GameAreaSquareView(getContext(), sqr, showHiddenShips);
                 SquareClickListener sqrListener = new SquareClickListener(c);
                 square.setClickable(true);
                 square.setOnClickListener(sqrListener);
