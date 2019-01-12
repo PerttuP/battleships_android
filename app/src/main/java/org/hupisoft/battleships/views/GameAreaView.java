@@ -1,6 +1,8 @@
 package org.hupisoft.battleships.views;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.TextView;
@@ -33,13 +35,30 @@ public class GameAreaView extends GridLayout {
 
     public GameAreaView(Context context) {
         super(context);
+        init();
+    }
+
+    public GameAreaView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    private void init() {
         setClickable(false);
     }
 
     public void setArea(IGameArea area) {
         removeAllViews();
-        setColumnCount(area.width() + 1);
-        setRowCount(area.height() + 1);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setColumnCount(area.height() + 1);
+            setRowCount(area.width() + 1);
+        }
+        else {
+            setColumnCount(area.width() + 1);
+            setRowCount(area.height() + 1);
+        }
+
         setCoordinates(area.width(), area.height());
         setSquares(area);
     }
@@ -52,8 +71,15 @@ public class GameAreaView extends GridLayout {
     private void setHorizontalCoordinates(int width) {
         for (int x = 0; x < width; ++x) {
             View view = createCoordinateView(ALPHABETS[x]);
+
             GridLayout.Spec rowSpec = spec(0, 1);
             GridLayout.Spec colSpec = spec(x+1, 1);
+
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                rowSpec = spec(x+1, 1);
+                colSpec = spec(0, 1);
+            }
+
             addView(view, new GridLayout.LayoutParams(rowSpec, colSpec));
         }
     }
@@ -63,6 +89,10 @@ public class GameAreaView extends GridLayout {
             View view = createCoordinateView(Integer.toString(y+1));
             GridLayout.Spec rowSpec = spec(y+1, 1);
             GridLayout.Spec colSpec = spec(0, 1);
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                rowSpec = spec(0, 1);
+                colSpec = spec(y+1, 1);
+            }
             addView(view, new GridLayout.LayoutParams(rowSpec, colSpec));
         }
     }
@@ -84,6 +114,10 @@ public class GameAreaView extends GridLayout {
                 square.setOnClickListener(sqrListener);
                 GridLayout.Spec rowSpec = spec(y+1, 1);
                 GridLayout.Spec colSpec = spec(x+1, 1);
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    rowSpec = spec(x+1, 1);
+                    colSpec = spec(y+1, 1);
+                }
                 addView(square, new GridLayout.LayoutParams(rowSpec, colSpec));
             }
         }

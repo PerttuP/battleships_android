@@ -14,10 +14,7 @@ public class BattleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_battle);
 
         IGameManager manager = (IGameManager)getApplicationContext();
-        GameAreaView areaView = new GameAreaView(getApplicationContext());
+        GameAreaView areaView = findViewById(R.id.gameAreaView);
         areaView.setArea(manager.currentGameLogic().getGameArea(manager.currentGameLogic().getCurrentPlayer()));
-        ViewGroup grp = findViewById(R.id.testLayout);
-        grp.addView(areaView);
-        //layout.addView();
     }
 }
