@@ -26,14 +26,14 @@ public interface IGameAreaLogger {
         /**
          * @return Hit location.
          */
-        Coordinate location() {
+        public Coordinate location() {
             return mLocation;
         }
 
         /**
          * @return Hit result.
          */
-        HitResult result() {
+        public HitResult result() {
             return mResult;
         }
     }

@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
         GameManagerTest.class,
-        BattleViewModelTest.class
+        BattleViewModelTest.class,
+        GameDataStorageProviderTest.class
 })
 
 /**
