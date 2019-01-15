@@ -54,6 +54,33 @@ public class GameManager extends Application implements IGameManager {
         mCurrentGame = null;
     }
 
+    @Override
+    public boolean saveGame() {
+        boolean success = true;
+        if (mCurrentGame != null){
+            IGameDataStorage storage = GameDataStorageProvider.getStorage();
+            IGameDataStorage.GameData data =
+                    new IGameDataStorage.GameData(mCurrentGame, mGameType, mAIPlayer);
+            success = storage.saveGameData(this, data);
+        }
+        return success;
+    }
+
+    @Override
+    public boolean loadGame() {
+        boolean success = false;
+        resetCurrentGame();
+        IGameDataStorage storage = GameDataStorageProvider.getStorage();
+        IGameDataStorage.GameData data = storage.loadGameData(this);
+        if (data != null) {
+            mCurrentGame = data.gameLogic;
+            mGameType = data.gameType;
+            mAIPlayer = data.gameAi;
+            success = true;
+        }
+        return success;
+    }
+
     private IGameLogic createGameLogic() {
         GameLogicBuilder builder = new GameLogicBuilder();
         return builder.createNewGame(12, 8, new int[]{2,3,5});

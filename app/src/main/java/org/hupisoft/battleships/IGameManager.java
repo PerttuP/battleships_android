@@ -3,6 +3,8 @@ package org.hupisoft.battleships;
 import org.hupisoft.battleships_ai.IBattleShipsAI;
 import org.hupisoft.battleships_core.IGameLogic;
 
+import java.io.File;
+
 /**
  * Interface for accessing game data across whole application.
  */
@@ -57,4 +59,16 @@ public interface IGameManager {
      * Reset current game. There will no longer be an active game.
      */
     void resetCurrentGame();
+
+    /**
+     * Save game to a file in app's internal storage.
+     * @return True on success.
+     */
+    boolean saveGame();
+
+    /**
+     * Load game from a file in app's internal storage.
+     * @return True on success.
+     */
+    boolean loadGame();
 }
