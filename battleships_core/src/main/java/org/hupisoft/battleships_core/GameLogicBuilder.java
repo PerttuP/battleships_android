@@ -5,32 +5,26 @@ import java.util.Random;
 /**
  * Builder class for game logic.
  */
-public class GameLogicBuilder {
+class GameLogicBuilder implements IGameLogicBuilder {
 
     private IGameAreaBuilder mAreaBuilder = null;
 
     /**
-     * Create gane logic builder with default game area builder.
+     * Create game logic builder with default game area builder.
      */
-    public GameLogicBuilder() {
+    GameLogicBuilder() {
         this(new GameAreaBuilder(new Random()));
     }
 
     /**
-     * Create gane logic builder with custom game area builder.
+     * Create game logic builder with custom game area builder.
      * @param areaBuilder Custom game area builder.
      */
-    public GameLogicBuilder(IGameAreaBuilder areaBuilder) {
+    GameLogicBuilder(IGameAreaBuilder areaBuilder) {
         mAreaBuilder = areaBuilder;
     }
 
-    /**
-     * Create new game.
-     * @param areaWidth Game area width.
-     * @param areaHeight Game area height.
-     * @param shipLengths Number of ships and their lengths.
-     * @return New untouched game.
-     */
+    @Override
     public IGameLogic createNewGame(int areaWidth, int areaHeight, int[] shipLengths) {
         GameLogic.PlayerGameSetup setup1 = new GameLogic.PlayerGameSetup();
         setup1.numberOfHits = 0;
@@ -41,5 +35,10 @@ public class GameLogicBuilder {
         setup2.area = mAreaBuilder.createInitialGameArea(areaWidth, areaHeight, shipLengths);
 
         return new GameLogic(setup1, setup2, Player.PLAYER_1);
+    }
+
+    @Override
+    public IGameAreaBuilder getAreaBuilder() {
+        return mAreaBuilder;
     }
 }

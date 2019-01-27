@@ -34,6 +34,8 @@ public class GameLogicBuilderTest {
     @Test
     public void newGameCreatesGameAreaForBothPlayers() {
         mBuilder = new GameLogicBuilder(mockAreaBuilder);
+        assertSame(mockAreaBuilder, mBuilder.getAreaBuilder());
+
         when(mockAreaBuilder.createInitialGameArea(10, 8, new int[]{2,3,5})).thenAnswer(new Answer<IGameArea>(){
             int i = 0;
             @Override
@@ -57,6 +59,8 @@ public class GameLogicBuilderTest {
     @Test
     public void createNewGameWithDefaultAreaBuilder() {
         mBuilder = new GameLogicBuilder();
+        assertNotNull((GameAreaBuilder)mBuilder.getAreaBuilder());
+
         int areaWidth = 12;
         int areaHeight = 10;
         int[] shipLengths = {2,3,5};
