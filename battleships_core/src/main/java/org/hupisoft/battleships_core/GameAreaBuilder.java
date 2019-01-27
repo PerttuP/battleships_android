@@ -14,6 +14,13 @@ class GameAreaBuilder implements IGameAreaBuilder {
     private Random mRng = null;
 
     /**
+     * Constructor. Creates builder with default RNG.
+     */
+    GameAreaBuilder() {
+        this(new Random());
+    }
+
+    /**
      * Constructor.
      * @param rng Random number generator.
      */
@@ -30,6 +37,41 @@ class GameAreaBuilder implements IGameAreaBuilder {
         setShipOccupations(ships, squares);
 
         return area;
+    }
+
+    @Override
+    public IGameArea createCopy(IGameArea original) {
+        IGameArea copy = null;
+        if (original != null) {
+            copy = createSnapshot(original, original.getLogger().numberOfPerformedActions());
+        }
+        return copy;
+    }
+
+    public IGameArea createSnapshot(IGameArea original, int numberOfHits) {
+        IGameArea snapshot = null;
+        if (numberOfHits >= 0 && numberOfHits <= original.getLogger().numberOfPerformedActions()) {
+            List<List<ISquare>> squares = createSquares(original.width(), original.height());
+            List<IShip> ships = copyShips(original.getShips());
+            snapshot = new GameArea(squares, ships, new GameAreaLogger());
+            setShipOccupations(ships, squares);
+            replayLoggerActions(snapshot, original.getLogger(), numberOfHits);
+        }
+        return snapshot;
+    }
+
+    private List<IShip> copyShips(List<IShip> originalShips) {
+        List<IShip> ships = new ArrayList<>();
+        for (IShip original : originalShips) {
+            ships.add(new Ship(original.length(), original.getBowCoordinates(), original.orientation()));
+        }
+        return ships;
+    }
+
+    private void replayLoggerActions(IGameArea area, IGameAreaLogger logger, int numOfActions) {
+        for (int i = 1; i <= numOfActions; ++i) {
+            area.hit(logger.getAction(i-1).location());
+        }
     }
 
     private List<List<ISquare>> createSquares(int width, int height) {
@@ -97,7 +139,7 @@ class GameAreaBuilder implements IGameAreaBuilder {
      * @param ships List of ships. bow coordinate and orientation must have been set previously.
      * @param squares Area squares in matrix. First index is x-coordinate and second is y-coordinate.
      */
-    public static void setShipOccupations(List<IShip> ships, List<List<ISquare>> squares) {
+     static void setShipOccupations(List<IShip> ships, List<List<ISquare>> squares) {
         for (IShip ship : ships) {
             List<Coordinate> occupied = ship.getOccupiedCoordinates();
             for (Coordinate c : occupied) {

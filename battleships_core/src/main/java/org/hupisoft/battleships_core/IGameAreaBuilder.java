@@ -15,5 +15,20 @@ public interface IGameAreaBuilder {
      *                    length for each ship.
      * @return Randomly generated game area without any pre-existing hits.
      */
-    public IGameArea createInitialGameArea(int width, int height, int[] shipLengths);
+    IGameArea createInitialGameArea(int width, int height, int[] shipLengths);
+
+    /**
+     * Create deep copy of the original game area.
+     * @param original Original game area.
+     * @return Deep copy of the original area.
+     */
+    IGameArea createCopy(IGameArea original);
+
+    /**
+     * Create snapshot from original game area.
+     * @param original Original game area.
+     * @param numberOfHits Number of hits that have been performed at the time of snapshot.
+     * @return Snapshot from original at point of specified hit count. Null if hit count is out of range.
+     */
+    IGameArea createSnapshot(IGameArea original, int numberOfHits);
 }

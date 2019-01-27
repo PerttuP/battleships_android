@@ -56,6 +56,22 @@ public class GameAreaBuilderTest {
         }
     }
 
+    private void checkAreasNotSameButEquivalent(IGameArea expected, IGameArea actual) {
+        CoreTestUtils.compareGameAreas(expected, actual);
+
+        // Verify that members are deep copies too.
+        for (int i = 0; i < expected.getShips().size(); ++i) {
+            assertNotSame(expected.getShips().get(i), actual.getShips().get(i));
+        }
+        for (int x = 0; x < expected.width(); ++x) {
+            for (int y = 0; y < expected.height(); ++y) {
+                Coordinate c = new Coordinate(x,y);
+                assertNotSame(expected.getSquare(c), actual.getSquare(c));
+            }
+        }
+        assertNotSame(expected.getLogger(), actual.getLogger());
+    }
+
     @Before
     public void setUp() {
         mRng = mock(Random.class);
@@ -198,5 +214,73 @@ public class GameAreaBuilderTest {
         order.verify(mRng).nextInt(6);
         order.verify(mRng).nextBoolean();
         order.verify(mRng, times(2)).nextInt(8);
+    }
+
+    @Test
+    public void copyIsNullIfOriginalIsNull() {
+        assertNull(mBuilder.createCopy(null));
+    }
+
+    @Test
+    public void copyMatchesTheOriginal() {
+        GameAreaBuilder builder = new GameAreaBuilder();
+        IGameArea original = builder.createInitialGameArea(12, 8, new int[]{2,3,5});
+
+        // Perform some actions:
+        original.hit(new Coordinate(2,3));
+        original.hit(new Coordinate(11,7));
+        original.hit(new Coordinate(5,6));
+        original.hit(new Coordinate(0,0));
+        original.hit(new Coordinate(0,7));
+        original.hit(new Coordinate(11,0));
+
+        // Create copy
+        IGameArea copy = builder.createCopy(original);
+        checkAreasNotSameButEquivalent(original, copy);
+    }
+
+    @Test
+    public void snapshotIsEmptyIfHitsOutOfRange() {
+        GameAreaBuilder builder = new GameAreaBuilder();
+        IGameArea original = builder.createInitialGameArea(12, 8, new int[]{2,3,5});
+
+        // Perform some actions:
+        original.hit(new Coordinate(2,3));
+        original.hit(new Coordinate(11,7));
+        original.hit(new Coordinate(5,6));
+        original.hit(new Coordinate(0,0));
+        original.hit(new Coordinate(0,7));
+        original.hit(new Coordinate(11,0));
+
+        assertNull(builder.createSnapshot(original, -1));
+        assertNull(builder.createSnapshot(original, 7));
+    }
+
+    @Test
+    public void createsCorrectSnapshots() {
+        GameAreaBuilder builder = new GameAreaBuilder();
+        IGameArea original = builder.createInitialGameArea(12, 8, new int[]{2,3,5});
+        List<IGameArea> expectedSnapshots = new ArrayList<>();
+
+        // Perform some actions:
+        expectedSnapshots.add(builder.createCopy(original));
+        original.hit(new Coordinate(2,3));
+        expectedSnapshots.add(builder.createCopy(original));
+        original.hit(new Coordinate(11,7));
+        expectedSnapshots.add(builder.createCopy(original));
+        original.hit(new Coordinate(5,6));
+        expectedSnapshots.add(builder.createCopy(original));
+        original.hit(new Coordinate(0,0));
+        expectedSnapshots.add(builder.createCopy(original));
+        original.hit(new Coordinate(0,7));
+        expectedSnapshots.add(builder.createCopy(original));
+        original.hit(new Coordinate(11,0));
+        expectedSnapshots.add(builder.createCopy(original));
+
+        for (int i = 0; i <= original.getLogger().numberOfPerformedActions(); ++i) {
+            IGameArea snapshot = builder.createSnapshot(original, i);
+            checkAreasNotSameButEquivalent(expectedSnapshots.get(i), snapshot);
+        }
+
     }
 }
