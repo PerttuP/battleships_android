@@ -13,6 +13,19 @@ import org.hupisoft.battleships_core.ISquare;
 
 public class GameAreaView extends GridLayout {
 
+    /**
+     * Interface for receiving notification for clicked game square.
+     */
+    public interface IGameAreaClickListener {
+        /**
+         * This method will be called when game square in this area has been clicked.
+         * @param location Square location.
+         */
+        void squareClicked(Coordinate location);
+    }
+
+    private IGameAreaClickListener mClickListener;
+
     private static final String[] ALPHABETS = {
             "A", "B", "C", "D", "E", "F", "G",
             "H", "I", "J", "K", "L", "M", "N",
@@ -22,14 +35,19 @@ public class GameAreaView extends GridLayout {
 
     private class SquareClickListener implements OnClickListener {
         private final Coordinate mLocation;
+        private final IGameAreaClickListener mListener;
 
-        public SquareClickListener(Coordinate c) {
+        SquareClickListener(Coordinate c, IGameAreaClickListener listener) {
             mLocation = c;
+            mListener = listener;
         }
 
         @Override
         public void onClick(View view) {
             System.out.println("Clicked square " + mLocation.toString());
+            if (mListener != null) {
+                mListener.squareClicked(mLocation);
+            }
         }
     }
 
@@ -47,7 +65,7 @@ public class GameAreaView extends GridLayout {
         setClickable(false);
     }
 
-    public void setArea(IGameArea area, boolean showHiddenShips) {
+    public void setArea(IGameArea area, boolean showHiddenShips, IGameAreaClickListener areaClickListener) {
         removeAllViews();
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -60,7 +78,7 @@ public class GameAreaView extends GridLayout {
         }
 
         setCoordinates(area.width(), area.height());
-        setSquares(area, showHiddenShips);
+        setSquares(area, showHiddenShips, areaClickListener);
     }
 
     private void setCoordinates(int width, int height) {
@@ -103,14 +121,15 @@ public class GameAreaView extends GridLayout {
         return view;
     }
 
-    private void setSquares(IGameArea area, boolean showHiddenShips) {
+    private void setSquares(IGameArea area, boolean showHiddenShips, IGameAreaClickListener areaClickListener) {
         for (int y = 0; y < area.height(); ++y) {
             for (int x = 0; x < area.width(); ++x) {
                 Coordinate c = new Coordinate(x,y);
                 ISquare sqr = area.getSquare(c);
                 GameAreaSquareView square = new GameAreaSquareView(getContext(), sqr, showHiddenShips);
-                SquareClickListener sqrListener = new SquareClickListener(c);
+                SquareClickListener sqrListener = new SquareClickListener(c, areaClickListener);
                 square.setClickable(true);
+
                 square.setOnClickListener(sqrListener);
                 GridLayout.Spec rowSpec = spec(y+1, 1);
                 GridLayout.Spec colSpec = spec(x+1, 1);

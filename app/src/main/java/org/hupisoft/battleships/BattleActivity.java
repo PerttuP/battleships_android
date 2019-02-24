@@ -1,6 +1,6 @@
 package org.hupisoft.battleships;
 
-import android.arch.lifecycle.ViewModelProvider;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.arch.lifecycle.ViewModelProviders;
@@ -9,11 +9,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.hupisoft.battleships.views.GameAreaView;
+import org.hupisoft.battleships_core.Coordinate;
+import org.hupisoft.battleships_core.HitResult;
 import org.hupisoft.battleships_core.IGameArea;
 import org.hupisoft.battleships_core.IGameLogic;
 import org.hupisoft.battleships_core.Player;
 
-public class BattleActivity extends AppCompatActivity {
+public class BattleActivity extends AppCompatActivity implements GameAreaView.IGameAreaClickListener {
 
     private BattleViewModel mModel;
     private IGameManager mGameManager;
@@ -25,6 +27,7 @@ public class BattleActivity extends AppCompatActivity {
         mGameManager = (IGameManager)getApplicationContext();
         setContentView(R.layout.activity_battle);
         initToggleButton();
+        initEndTurnButton();
     }
 
     @Override
@@ -33,6 +36,7 @@ public class BattleActivity extends AppCompatActivity {
         setGameArea();
         setToggleButtonText();
         setStatusInformation();
+        setEndTurnButtonEnabled(mModel.isHitPerformed());
     }
 
     private void initToggleButton() {
@@ -43,6 +47,17 @@ public class BattleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 toggleViewState();
+            }
+        });
+    }
+
+    private void initEndTurnButton() {
+        Button endTurnBtn = findViewById(R.id.endTurnButton);
+        endTurnBtn.setEnabled(false);
+        endTurnBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                endTurn();
             }
         });
     }
@@ -69,7 +84,11 @@ public class BattleActivity extends AppCompatActivity {
         Player displayedPlayer = getPlayerToBeShown();
         IGameArea area = mGameManager.currentGameLogic().getGameArea(displayedPlayer);
         boolean showShips = mGameManager.currentGameLogic().getCurrentPlayer() == displayedPlayer;
-        areaView.setArea(area, showShips);
+        if (mModel.isHitPerformed()) {
+            showShips = !showShips;
+        }
+        GameAreaView.IGameAreaClickListener areaListener = showShips ? null : this;
+        areaView.setArea(area, showShips, areaListener);
     }
 
     private Player getPlayerToBeShown() {
@@ -85,12 +104,23 @@ public class BattleActivity extends AppCompatActivity {
             displayedPlayer = Player.PLAYER_2;
         }
 
+        // If hit is performed, invert selection
+        if (mModel.isHitPerformed()) {
+            if (displayedPlayer == Player.PLAYER_1) {
+                displayedPlayer = Player.PLAYER_2;
+            }
+            else {
+                displayedPlayer = Player.PLAYER_1;
+            }
+        }
+
         return displayedPlayer;
     }
 
     private void setStatusInformation() {
         setCurrentPlayerStatus();
         setNumberOfHitsStatus();
+        setInstructionText();
     }
 
     private void setCurrentPlayerStatus() {
@@ -107,5 +137,44 @@ public class BattleActivity extends AppCompatActivity {
         TextView numberOfHitsText = findViewById(R.id.numberOfHitsValueTextView);
         IGameLogic logic = mGameManager.currentGameLogic();
         numberOfHitsText.setText(Integer.toString(logic.getNumberOfHits(logic.getCurrentPlayer())));
+    }
+
+    private void setInstructionText() {
+        TextView instructions = findViewById(R.id.battleInstructionTextView);
+        HitResult result = mModel.getHitResult();
+
+        if (!mModel.isHitPerformed()) {
+            instructions.setText(R.string.battleView_instruction_tap);
+        }
+        else if (result == HitResult.VICTORY ||result == HitResult.SHIP_DESTROYED) {
+            instructions.setText(R.string.battleView_instruction_destroy);
+        }
+        else if (result == HitResult.EMPTY) {
+            instructions.setText(R.string.battleView_instruction_miss);
+        }
+        else if (result == HitResult.SHIP_HIT) {
+            instructions.setText(R.string.battleView_instruction_hit);
+        }
+    }
+
+    private void setEndTurnButtonEnabled(boolean enabled) {
+        Button endTurnBtn = findViewById(R.id.endTurnButton);
+        endTurnBtn.setEnabled(enabled);
+    }
+
+    private void endTurn() {
+        Intent nextPlayerIntent = new Intent(getApplicationContext(), NextPlayerActivity.class);
+        startActivity(nextPlayerIntent);
+    }
+
+    @Override
+    public void squareClicked(Coordinate location) {
+        if (!mModel.isHitPerformed()) {
+            HitResult result = mGameManager.currentGameLogic().playerAction(location);
+            mModel.setHitResult(result);
+            setEndTurnButtonEnabled(mModel.isHitPerformed());
+            setGameArea();
+            setStatusInformation();
+        }
     }
 }

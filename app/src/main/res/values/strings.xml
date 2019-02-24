@@ -25,4 +25,9 @@
 
     <string name="battleView_showEnemyArea" translatable="true">Show enemy area</string>
     <string name="battleView_showFriendlyArea" translatable="true">Show friendly area</string>
+    <string name="battleView_endTurn" translatable="true">End turn</string>
+    <string name="battleView_instruction_tap" translatable="true">Tap on enemy area to attack</string>
+    <string name="battleView_instruction_miss" translatable="true">That one missed!</string>
+    <string name="battleView_instruction_hit" translatable="true">We hit them!</string>
+    <string name="battleView_instruction_destroy" translatable="true">We sank their battleship!</string>
 </resources>
