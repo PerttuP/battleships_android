@@ -4,8 +4,9 @@ import android.app.Application;
 
 import org.hupisoft.battleships_ai.BattleShipAIFactory;
 import org.hupisoft.battleships_ai.IBattleShipsAI;
-import org.hupisoft.battleships_core.GameLogicBuilder;
+import org.hupisoft.battleships_core.GameLogicBuilderProvider;
 import org.hupisoft.battleships_core.IGameLogic;
+import org.hupisoft.battleships_core.IGameLogicBuilder;
 
 public class GameManager extends Application implements IGameManager {
 
@@ -82,7 +83,7 @@ public class GameManager extends Application implements IGameManager {
     }
 
     private IGameLogic createGameLogic() {
-        GameLogicBuilder builder = new GameLogicBuilder();
+        IGameLogicBuilder builder = new GameLogicBuilderProvider().getBuilderInstance();
         return builder.createNewGame(12, 8, new int[]{2,3,5});
     }
 

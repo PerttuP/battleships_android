@@ -5,10 +5,11 @@ import android.content.Context;
 
 import org.hupisoft.battleships_ai.BattleShipAIFactory;
 import org.hupisoft.battleships_ai.IBattleShipsAI;
-import org.hupisoft.battleships_core.GameLogicBuilder;
+import org.hupisoft.battleships_core.GameLogicBuilderProvider;
 import org.hupisoft.battleships_core.GameLogicJsonReader;
 import org.hupisoft.battleships_core.GameLogicJsonWriter;
 import org.hupisoft.battleships_core.IGameArea;
+import org.hupisoft.battleships_core.IGameAreaBuilder;
 import org.hupisoft.battleships_core.IGameAreaLogger;
 import org.hupisoft.battleships_core.IGameLogic;
 import org.hupisoft.battleships_core.Player;
@@ -75,7 +76,7 @@ class GameDataStorage implements IGameDataStorage {
             data = new GameData();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.err.print(e.getStackTrace().toString());
         }
 
         return data;
@@ -111,15 +112,23 @@ class GameDataStorage implements IGameDataStorage {
     }
 
     private void restoreAiState(IBattleShipsAI ai, IGameArea area) {
-        ai.setTargetGameArea(area.getRestrictedInstance());
+        IGameAreaBuilder areaBuilder = new GameLogicBuilderProvider()
+                .getBuilderInstance().getAreaBuilder();
+
+        IGameArea initialArea = areaBuilder.createSnapshot(area, 0);
+        ai.setTargetGameArea(initialArea.getRestrictedInstance());
+
         // Replay performed actions to AI.
         IGameAreaLogger logger = area.getLogger();
         for (int i = 0; i < logger.numberOfPerformedActions(); ++i) {
             // THIS DOES NOT WORK YET!
             // AI need specific methods to restore old state.
             IGameAreaLogger.Action act = logger.getAction(i);
+            initialArea.hit(act.location());
             ai.confirmDecision(act.location(), act.result());
         }
+
+        ai.setTargetGameArea(area.getRestrictedInstance());
     }
 
     private String readFromFile(Context ctx, String fileName) throws Exception {

@@ -6,7 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import org.hupisoft.battleships_ai.BattleShipAIFactory;
 import org.hupisoft.battleships_ai.IBattleShipsAI;
 import org.hupisoft.battleships_core.Coordinate;
-import org.hupisoft.battleships_core.GameLogicBuilder;
+import org.hupisoft.battleships_core.GameLogicBuilderProvider;
 import org.hupisoft.battleships_core.HitResult;
 import org.hupisoft.battleships_core.IGameArea;
 import org.hupisoft.battleships_core.IGameAreaLogger;
@@ -39,6 +39,7 @@ public class GameDataStorageTest {
     }
 
     private void compareData(IGameDataStorage.GameData originalData, IGameDataStorage.GameData newData) {
+        assertNotNull(newData);
         compareLogic(originalData.gameLogic, newData.gameLogic);
         assertEquals(originalData.gameType, newData.gameType);
         compareAIs(originalData.gameAi, newData.gameAi);
@@ -128,7 +129,8 @@ public class GameDataStorageTest {
 
     @Test
     public void constructorWithParametersCreatesPopulatedGameData() {
-        IGameLogic logic = new GameLogicBuilder().createNewGame(12, 8, new int[]{2,3,5});
+        GameLogicBuilderProvider provider = new GameLogicBuilderProvider();
+        IGameLogic logic = provider.getBuilderInstance().createNewGame(12, 8, new int[]{2,3,5});
         IBattleShipsAI ai = new BattleShipAIFactory().createAI(BattleShipAIFactory.RANDOM_AI);
         IGameManager.GameType type = IGameManager.GameType.SinglePlayerGame;
         IGameDataStorage.GameData data = new IGameDataStorage.GameData(logic, type, ai);
@@ -150,7 +152,8 @@ public class GameDataStorageTest {
     @Test
     public void saveAndLoadSinglePlayerGame() {
         // Create original data.
-        IGameLogic originalLogic = new GameLogicBuilder().createNewGame(12, 8, new int[]{2,3,5});
+        GameLogicBuilderProvider provider = new GameLogicBuilderProvider();
+        IGameLogic originalLogic = provider.getBuilderInstance().createNewGame(12, 8, new int[]{2,3,5});
         IBattleShipsAI originalAi = new BattleShipAIFactory().createAI(BattleShipAIFactory.PROBABILITY_AI);
         originalAi.setTargetGameArea(originalLogic.getGameArea(Player.PLAYER_1).getRestrictedInstance());
         IGameManager.GameType originalType = IGameManager.GameType.SinglePlayerGame;
@@ -173,7 +176,8 @@ public class GameDataStorageTest {
     @Test
     public void saveAndLoadVersusGame() {
         // Create original data.
-        IGameLogic originalLogic = new GameLogicBuilder().createNewGame(12, 8, new int[]{2,3,5});
+        GameLogicBuilderProvider provider = new GameLogicBuilderProvider();
+        IGameLogic originalLogic = provider.getBuilderInstance().createNewGame(12, 8, new int[]{2,3,5});
         IGameManager.GameType type = GameManager.GameType.VersusGame;
         IGameDataStorage.GameData originalData = new IGameDataStorage.GameData(originalLogic, type, null);
 
